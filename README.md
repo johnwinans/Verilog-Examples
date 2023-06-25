@@ -21,7 +21,7 @@ Note that, on older systems, packages for these tools can be outdated or missing
 
 ## Install from source
 
-On Ubuntu 20.04.2 LTS I was able to build the toolchain and install it under `user/local` like this:
+On Ubuntu 20.04.2 LTS I was able to build the toolchain and install it under `/usr/local` like this:
 
 ```
 sudo apt install iverilog
