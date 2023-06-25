@@ -1,0 +1,13 @@
+set_io hwclk 20
+
+set_io reset_n 28	# header pin
+
+set_io led[7] 39		# tri-color green
+set_io led[6] 41		# tri-color red
+set_io led[5] 40		# tri-color blue
+set_io led[4] 23		# header pin
+set_io led[3] 25		# header pin
+set_io led[2] 26		# header pin
+set_io led[1] 27		# header pin
+set_io led[0] 32		# header pin
+

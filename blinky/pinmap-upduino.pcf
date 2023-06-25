@@ -1,0 +1,7 @@
+set_io clk 20
+
+set_io led1 39		# tri-color green
+set_io led2 41		# tri-color red
+set_io led3 40		# tri-color blue
+set_io led4 23		# header pin
+set_io led5 25		# header pin

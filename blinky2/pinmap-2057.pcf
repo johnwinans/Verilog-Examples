@@ -1,0 +1,12 @@
+set_io --warn-no-port hwclk 52
+
+set_io --warn-no-port reset_n 102
+
+set_io --warn-no-port led[0] 118
+set_io --warn-no-port led[1] 116
+set_io --warn-no-port led[2] 115
+set_io --warn-no-port led[3] 114
+set_io --warn-no-port led[4] 113
+set_io --warn-no-port led[5] 112
+set_io --warn-no-port led[6] 110
+set_io --warn-no-port led[7] 107

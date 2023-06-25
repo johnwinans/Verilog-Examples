@@ -1,0 +1,3 @@
+
+set_io --warn-no-port led1 118
+set_io --warn-no-port btn1 105

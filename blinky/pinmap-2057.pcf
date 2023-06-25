@@ -1,0 +1,7 @@
+set_io --warn-no-port clk 52
+
+set_io --warn-no-port led1 118
+set_io --warn-no-port led2 116
+set_io --warn-no-port led3 115
+set_io --warn-no-port led4 114
+set_io --warn-no-port led5 113

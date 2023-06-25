@@ -1,0 +1,7 @@
+# rules that are specific to the IceStick board
+
+#DEVICE		= 1k
+DEVICE		= hx1k
+PACKAGE		= tq144
+FLASH_PROG	= iceprog -d i:0x0403:0x6010:0 
+PINMAP		= pinmap-icestick.pcf

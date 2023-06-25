@@ -1,0 +1,104 @@
+#	Make rules for building and simulating Verilog apps. 
+#
+#    Copyright (C) 2023  John Winans
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+# Make sure the all rule is seen first to make it the default target
+all::
+
+
+###################################################################
+# Rules to walk the filesystem tree
+###################################################################
+
+CLEAN_DIRS=$(SUBDIRS:%=clean-%)
+ALL_DIRS=$(SUBDIRS:%=all-%)
+DOXY_DIRS=$(SUBDIRS:%=doxy-%)
+
+.PHONY: all clean world doc timing $(CLEAN_DIRS) $(ALL_DIRS) $(DOXY_DIRS)
+
+all:: $(ALL_DIRS)
+
+clean:: $(CLEAN_DIRS)
+
+doc:: $(DOXY_DIRS)
+	if [ -f Doxyfile ]; then doxygen Doxyfile; fi
+world:: clean all
+
+
+# for each dir, do a make all
+$(ALL_DIRS):
+	$(MAKE) -C $(@:all-%=%) all
+
+# for each dir, do a make clean
+$(CLEAN_DIRS):
+	$(MAKE) -C $(@:clean-%=%) clean
+
+# for each dir, do a make doc
+$(DOXY_DIRS):
+	$(MAKE) -C $(@:doxy-%=%) doc
+
+
+###################################################################
+# The defaults below are for 2057-ICE40HX4K-TQ144-breakout
+###################################################################
+
+COMPILE.v	?= yosys
+NEXTPNR 	?= nextpnr-ice40
+ARACHNE		?= arachne-pnr
+
+
+DEVICE		= up5k
+PACKAGE		= sg48
+FLASH_PROG	= sudo iceprog -d i:0x0403:0x6014
+PINMAP		= pinmap-upduino.pcf
+
+###################################################################
+# Rules that know how to build and simulate Verilog apps 
+###################################################################
+
+# useful for single-file builds
+%.blif : %.v
+	$(COMPILE.v) -p "synth_ice40 -top top -blif $@" $<
+
+# useful for single-file builds
+%.json : %.v
+	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $<
+
+
+# Use nextpnr-ice40 to build from a JSON file
+%.asc : %.json
+	$(NEXTPNR) --$(DEVICE) --package $(PACKAGE) --pcf $(PINMAP) --asc $@ --json $<
+
+# Use arachne-pnr to build from a BLIF file 
+%.asc : %.blif
+	$(ARACHNE) -d $(DEVICE) --package $(PACKAGE) -p $(PINMAP) -o $@ $< 
+
+
+# make a binary config file from an ASC file
+%.bin : %.asc
+	icepack $< $@
+
+%.vcd: %.vvp
+	vvp $<
+
+
+
+
+clean::
+	rm -f *.bin *.vvp *.vcd *.asc *.blif *.json
+
+world:: clean all
