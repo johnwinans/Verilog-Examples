@@ -55,6 +55,8 @@ cd ..
 By default, this repo is configured to build for the [upduino-v3-1](https://tinyvision.ai/products/upduino-v3-1).
 If you are using a different board then you must create a configuration to suit your needs.
 
+NOTE: The blinky example programs use an oscillator to automatically count and flash LEDs.  The UPduino comes with an oscillator, but it is disconnected.  Therefore, out of the box, `blinky` and `blinky2` will not appear to do much unless you connect the oscillator yourself.  [This page discusses the details](https://upduino.readthedocs.io/en/latest/tutorials/oscillator.html) of connecting the oscillator using a solder jumper.  Another, perhaps easier, solution would be to install the header pins that the UPduino comes with, install it into a breadboard and then connect a jumper from the pins labeled `20` and `12M` (which are on header pins 44 and 41 respectively.)  Before doing so, however, also read the [UPduino errata](https://upduino.readthedocs.io/en/latest/features/specs.html#errata) where they mention that the silkscreen is wrong on some versions of the board.  Luckily, it is correct on version 3.1.  So if you got yours in/after 2023, maybe it is OK!
+
 If you are using an [IceStick](https://www.latticesemi.com/icestick) then create a file named `Makefile.local` in
 the top REPO directory and insert the following line into it:
 
