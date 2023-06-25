@@ -19,17 +19,17 @@ top.json: $(FILES)
 
 
 timing: top.asc
-	icetime -tmd hx$(DEVICE) $<
+	icetime -tmd hx$(DEVICE) $^
 
 
-counter_tb.vvp: counter_tb.v counter.v
+top_tb.vvp : top_tb.v $(FILES)
 	iverilog -o $@ $^
 
-plot: counter_tb.vcd
-	gtkwave $<
+plot: top_tb.vcd
+	gtkwave $^
 
 prog: top.bin
-	$(FLASH_PROG) $<
+	$(FLASH_PROG) $^
 
 
 # extra dependancies

@@ -19,17 +19,17 @@ top.json: $(FILES)
 	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $(FILES)
 
 timing: top.asc
-	icetime -tmd hx$(DEVICE) $<
+	icetime -tmd hx$(DEVICE) $^
 
 
 counter_tb.vvp: counter_tb.v counter.v
 	iverilog -o $@ $^
 
 plot: counter_tb.vcd
-	gtkwave $<
+	gtkwave $^
 
 prog: top.bin
-	$(FLASH_PROG) $<
+	$(FLASH_PROG) $^
 
 # extra dependancies
 top.asc: $(PINMAP)
