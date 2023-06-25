@@ -61,10 +61,10 @@ NEXTPNR 	?= nextpnr-ice40
 ARACHNE		?= arachne-pnr
 
 
-DEVICE		= up5k
-PACKAGE		= sg48
-FLASH_PROG	= sudo iceprog -d i:0x0403:0x6014
-PINMAP		= pinmap-upduino.pcf
+DEVICE		?= up5k
+PACKAGE		?= sg48
+FLASH_PROG	?= sudo iceprog -d i:0x0403:0x6014
+PINMAP		?= pinmap-upduino.pcf
 
 ###################################################################
 # Rules that know how to build and simulate Verilog apps 
