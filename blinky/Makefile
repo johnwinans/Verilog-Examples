@@ -22,7 +22,7 @@ timing: top.asc
 	icetime -tmd hx$(DEVICE) $^
 
 
-top.vvp: top_tb.v top.v
+top_tb.vvp: top_tb.v top.v
 	iverilog -o $@ $^
 
 plot: top_tb.vcd

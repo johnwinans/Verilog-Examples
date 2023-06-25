@@ -2,5 +2,5 @@
 *.bin
 *.json
 *.vcd
-*.vpp
+*.vvp
 Make.local
