@@ -12,10 +12,10 @@ all:: top.bin
 
 
 #top.blif: $(FILES)
-#	$(COMPILE.v) -p "synth_ice40 -top top -blif $@" $(FILES)
+#	$(COMPILE.v) -p "synth_ice40 -top top -blif $@" $^
 
 top.json: $(FILES)
-	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $(FILES)
+	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $^
 
 
 timing: top.asc
