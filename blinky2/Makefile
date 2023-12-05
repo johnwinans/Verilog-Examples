@@ -19,7 +19,7 @@ top.json: $(FILES)
 	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $^
 
 timing: top.asc
-	icetime -tmd hx$(DEVICE) $^
+	icetime -tmd $(DEVICE) $^
 
 
 counter_tb.vvp: counter_tb.v counter.v
