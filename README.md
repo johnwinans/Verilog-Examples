@@ -3,7 +3,7 @@
 These instructions have been verified on:
 - Ubuntu 22.04.2 LTS on 2023-06-24
 - Ubuntu 20.04.2 LTS on 2023-06-24
-- 64-bit Raspbian Debian GNU/Linux 11 (bullseye) on 2023-06-25
+- 64-bit Raspbian Debian GNU/Linux 11 (bullseye) on 2023-06-25 (See https://github.com/johnwinans/raspberry-pi-install for details on how I set up mine.)
 
 # Get the toolchain
 
