@@ -25,7 +25,7 @@ module pll_25_40(
    
    
 //   SB_PLL40_CORE #(
-	SB_PLL40_PAD #(
+    SB_PLL40_PAD #(
                 .FEEDBACK_PATH("SIMPLE"),
                 .DIVR(4'b0001),
                 .DIVF(7'b0110010),      
@@ -36,7 +36,7 @@ module pll_25_40(
                 .RESETB(1'b1),
                 .BYPASS(1'b0),
  //             .REFERENCECLK(clock_in),
-				.PACKAGEPIN(clock_in),
+                .PACKAGEPIN(clock_in),
                 .PLLOUTGLOBAL(g_clock_int)
                 );
 

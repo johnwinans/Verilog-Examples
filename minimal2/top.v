@@ -25,8 +25,8 @@
 * This will turn on led1 when btn1 is pressed.
 **************************************************************************/
 module top (
-    input wire btn1,    	// a single-bit input signal called btn1
-    output wire led1    	// a single-bit output signal called led1
+    input wire btn1,        // a single-bit input signal called btn1
+    output wire led1        // a single-bit output signal called led1
     );
 
     wire btn1_pu;
@@ -35,10 +35,10 @@ module top (
         .PIN_TYPE(6'b0000_01),  // output = 0, input = 1
         .PULLUP(1'b1)           // enable the pullup = 1
     ) btn1_pullup (
-        .PACKAGE_PIN(btn1),  	// the physical pin number with the pullup on it
-        .D_IN_0(btn1_pu)     		// an internal wire for this pin
+        .PACKAGE_PIN(btn1),     // the physical pin number with the pullup on it
+        .D_IN_0(btn1_pu)            // an internal wire for this pin
     );
 
-    assign led1 = btn1_pu;		// connect the btn1 input to the led1 output
+    assign led1 = btn1_pu;      // connect the btn1 input to the led1 output
 
 endmodule

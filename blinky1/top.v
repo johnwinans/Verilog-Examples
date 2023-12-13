@@ -25,27 +25,27 @@
 * by dividing down the 12MHZ oscillator on the board.
 **************************************************************************/
 module top (
-    input wire clk,				// 12MHZ clock
+    input wire clk,             // 12MHZ clock
     output wire led1,
     output wire led2,
     output wire led3,
     output wire led4,
     output wire led5
-	);
+    );
 
     reg [25:0] counter = 0;
 
-	// Drive the LEDs from the MSBs of the counter
+    // Drive the LEDs from the MSBs of the counter
 
-    assign led1 = counter[21];		// divide by 4MHZ
-    assign led2 = counter[22];		// divide by 8MHZ
-    assign led3 = counter[23];		// divide by 16MHZ
-    assign led4 = counter[24];		// divide by 32MHZ
-    assign led5 = counter[25];		// divide by 64MHZ
+    assign led1 = counter[21];      // divide by 4MHZ
+    assign led2 = counter[22];      // divide by 8MHZ
+    assign led3 = counter[23];      // divide by 16MHZ
+    assign led4 = counter[24];      // divide by 32MHZ
+    assign led5 = counter[25];      // divide by 64MHZ
 
-	// Add 1 to the counter on each rising edge of the clk input signal
+    // Add 1 to the counter on each rising edge of the clk input signal
     always @ (posedge clk) 
-	begin
+    begin
         counter <= counter + 1;
     end
 

@@ -1,11 +1,11 @@
 module top (
     input wire hwclk,
-	input wire reset_n,
+    input wire reset_n,
     output wire [7:0] led
-	);
+    );
 
-	wire reset_n_pu;
-	wire reset = ~reset_n_pu;
+    wire reset_n_pu;
+    wire reset = ~reset_n_pu;
 
     SB_IO #(
         .PIN_TYPE(6'b0000_01),  // output = 0, input = 1
@@ -15,10 +15,10 @@ module top (
         .D_IN_0(reset_n_pu)     // an internal wire for this pin
     );
 
-	counter c (
-		.clk(hwclk),
-		.reset(reset),
-		.led(led)
-		);
+    counter c (
+        .clk(hwclk),
+        .reset(reset),
+        .led(led)
+        );
 
 endmodule

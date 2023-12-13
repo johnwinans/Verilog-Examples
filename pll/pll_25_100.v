@@ -24,7 +24,7 @@ module pll_25_100(
    
    
    SB_PLL40_CORE #(
-//	SB_PLL40_PAD #(
+//  SB_PLL40_PAD #(
                 .FEEDBACK_PATH("SIMPLE"),
                 .DIVR(4'b0000),
                 .DIVF(7'b0011111),      

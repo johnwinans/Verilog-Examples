@@ -1,8 +1,8 @@
 module counter (
     input wire clk,
-	input wire reset,
+    input wire reset,
     output wire [7:0] out
-	);
+    );
 
     reg [31:0] counter = 32'b0;
 
@@ -11,11 +11,11 @@ module counter (
     //assign out = counter[30:23];
 
     always @ (posedge clk) 
-	begin
-		if (reset)
-        	counter <= 0;
-		else
-        	counter <= counter + 1;
+    begin
+        if (reset)
+            counter <= 0;
+        else
+            counter <= counter + 1;
     end
 
 endmodule
