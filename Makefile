@@ -5,6 +5,7 @@ SUBDIRS= \
 	minimal2 \
 	minimal3 \
 	blinky1 \
-	blinky2
+	blinky2 \
+	pll
 
 include $(TOP)/Make.rules

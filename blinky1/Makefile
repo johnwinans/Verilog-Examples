@@ -19,7 +19,7 @@ top.json: $(FILES)
 
 
 timing: top.asc
-	icetime -tmd hx$(DEVICE) $^
+	icetime -tmd $(DEVICE) $^
 
 
 top_tb.vvp: top_tb.v top.v
