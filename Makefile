@@ -1,8 +1,10 @@
 TOP=.
 
 SUBDIRS= \
-	minimal \
-	blinky \
+	minimal1 \
+	minimal2 \
+	minimal3 \
+	blinky1 \
 	blinky2
 
 include $(TOP)/Make.rules

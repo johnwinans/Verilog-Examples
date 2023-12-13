@@ -1,0 +1,7 @@
+set_io clk 52
+
+set_io led1 118
+set_io led2 116
+set_io led3 115
+set_io led4 114
+set_io led5 113

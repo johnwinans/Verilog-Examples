@@ -1,12 +1,12 @@
-set_io --warn-no-port led[0] 99
-set_io --warn-no-port led[1] 98
-set_io --warn-no-port led[2] 97
-set_io --warn-no-port led[3] 96
-set_io --warn-no-port led[4] 95
-set_io --warn-no-port hwclk 21
+set_io led[0] 99
+set_io led[1] 98
+set_io led[2] 97
+set_io led[3] 96
+set_io led[4] 95
+set_io hwclk 21
 
 # the following are pins on a header
-set_io --warn-no-port reset_n 44
-set_io --warn-no-port led[5] 45
-set_io --warn-no-port led[6] 47
-set_io --warn-no-port led[7] 48
+set_io reset_n 44
+set_io led[5] 45
+set_io led[6] 47
+set_io led[7] 48

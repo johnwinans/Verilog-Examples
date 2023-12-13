@@ -1,0 +1,3 @@
+
+set_io             led1 99
+set_io -pullup yes btn1 44

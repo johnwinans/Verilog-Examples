@@ -1,0 +1,4 @@
+# see https://github.com/YosysHQ/nextpnr/blob/master/docs/ice40.md
+
+set_io             led1 118
+set_io -pullup yes btn1 105
