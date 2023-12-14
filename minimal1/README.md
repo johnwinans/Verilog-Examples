@@ -1,4 +1,4 @@
-Demonstrate SB_IO to enable a pullup on the button pin by specifying it in the .pcf file.
+Demonstrate a basic module that connects an input (button) to an output (led).
 
-Note that since the .pcf file is not used by test-benches.  
-Therefore it can not interfere with our ability to compile and run it.
+Note that, by default, the FPGA pullup resistor is not enabled on the button input.
+Therefore, it is not stable.
