@@ -18,7 +18,9 @@ On Ubuntu 22.04.2 LTS and on a Raspberry PI running 64-bit Debian GNU/Linux 11 (
 sudo apt install iverilog
 sudo apt install gtkwave
 sudo apt install fpga-icestorm
+sudo apt install yosys
 sudo apt install nextpnr-ice40
+sudo apt install flashrom
 ```
 
 Note that, on older systems, packages for these tools can be outdated or missing.
