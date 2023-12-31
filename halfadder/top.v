@@ -22,7 +22,11 @@
 `default_nettype none
 
 /**
-* This will calculate the suym of a and b.
+* This will calculate the sum of a and b.
+*
+* @warning Keep in mind that the buttons and LEDs on the 2057 (and 
+* other boards) are low when pressed and high when released and the LEDs 
+* are lit when the output signal from the FPGA low!
 **************************************************************************/
 module top (
     input wire      a,
