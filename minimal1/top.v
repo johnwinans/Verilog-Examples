@@ -25,7 +25,7 @@
 
 
 /**
-* This will turn on led1 when btn1 is pressed.
+* This will connect btn1 to an led.
 **************************************************************************/
 module top (
     input wire btn1,        // a single-bit input signal called btn1
