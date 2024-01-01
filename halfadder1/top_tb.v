@@ -1,5 +1,5 @@
 // 1ns = the time represented by #1
-// 1ps is the resolution of the times stored in the simulation VCD (Value CHange Dump) file
+// 1ps is the resolution of the times stored in the simulation VCD (Value Change Dump) file
 `timescale 1ns/1ps
 
 // Create a module named 'tb' that has no ports

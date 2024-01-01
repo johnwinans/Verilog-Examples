@@ -31,10 +31,10 @@ module tb();
         end
 
         // use monitor to automatically show things when ever they change
-        //$monitor("time:%0t {$monitor sum} sum = %0d", $time, sum);   // only one monitor is allowed!
-        //$monitor("time:%0t {$monitor cy} cy = %0d", $time, cy);
+        //$monitor("time:%0t sum = %0d", $time, sum);   // only one monitor is allowed!
+        //$monitor("time:%0t cy = %0d", $time, cy);
         // ... so do this:
-        $monitor("time:%0t {$monitor sum, cy} sum=%b, cy=%b", $time, sum, cy);   // only one monitor is allowed!
+        $monitor("time:%0t a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);   // only one monitor is allowed!
     
         a = 0;
         b = 0;
