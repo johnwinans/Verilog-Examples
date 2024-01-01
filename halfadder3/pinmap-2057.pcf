@@ -1,0 +1,6 @@
+# see https://github.com/YosysHQ/nextpnr/blob/master/docs/ice40.md
+
+set_io -pullup yes a    102
+set_io -pullup yes b    105
+set_io             sum  118
+set_io             cy   116

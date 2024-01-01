@@ -1,0 +1,52 @@
+`timescale 1ns/1ps
+
+module tb();
+
+    reg a;
+    reg b;
+    wire sum;
+    wire cy;
+
+    top uut (
+        .a(a),
+        .b(b),
+        .sum(sum),
+        .cy(cy)
+        );
+
+    initial begin
+        $dumpfile("top_tb.vcd");    // where to write the dump
+        $dumpvars;                  // dump EVERYTHING
+    end
+
+    initial begin
+       // brute force hardcoded
+       a = 0;
+       b = 0;
+       $display("%0t sum=%b, cy=%b", $time, sum, cy);    // 0t removes a ton of padding
+       #1;
+
+       a = 0;
+       b = 1;
+       $display("%0t sum=%b, cy=%b", $time, sum, cy);
+       #1;
+
+       a = 1;
+       b = 0;
+       $display("%0t sum=%b, cy=%b", $time, sum, cy);
+       #1;
+
+       a = 1;
+       b = 1;
+       $display("%0t sum=%b, cy=%b", $time, sum, cy);
+       #1;
+
+       a = 0;
+       b = 0;
+       $display("%0t sum=%b, cy=%b", $time, sum, cy);
+       #10;
+
+       $finish;
+    end
+
+endmodule
