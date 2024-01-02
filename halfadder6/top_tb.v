@@ -20,34 +20,37 @@ module tb();
     end
 
     initial begin
-        // brute force hardcoded
+        // Only one $monitor task allowed, so we can NOT do this:
+        //$monitor("time:%0t sum = %0d", $time, sum);
+        //$monitor("time:%0t cy = %0d", $time, cy);
+
+        // ... therefore do this:
+        $monitor("time:%0t a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
+
+        // $monitor will report changes in all the signals that are listed as
+        // parameters (except for $time since it always changes)
+    
         a = 0;
         b = 0;
-        #0;
-        $display("%0t sum=%b, cy=%b", $time, sum, cy);      // 0t removes a ton of padding
-        #1;
+        #1
 
         a = 0;
         b = 1;
-        #0 $display("%0t sum=%b, cy=%b", $time, sum, cy);   // can also combine the #0 with what follows 
-        #1;
+        #1
 
         a = 1;
         b = 0;
-        #0 $display("%0t sum=%b, cy=%b", $time, sum, cy);
-        #1;
+        #1
 
         a = 1;
         b = 1;
-        #0 $display("%0t sum=%b, cy=%b", $time, sum, cy);
-        #1;
+        #1
 
         a = 0;
         b = 0;
-        #0 $display("%0t sum=%b, cy=%b", $time, sum, cy);
-        #10;
+        #1
 
-       $finish;
+        $finish;
     end
 
 endmodule
