@@ -43,22 +43,22 @@ module tb();
 
         a = 0;
         b = 1;
-        #0.5 `ASSERT( sum==1 && cy==0 ); #0;
+        #0.5 `ASSERT( sum==1 && cy==0 );
         #0.5;
 
         a = 1;                              
         b = 0;
-        #0.5 `ASSERT( sum==1 && cy==0 ); #0;
+        #0.5 `ASSERT( sum==1 && cy==0 );
         #0.5;
 
         a = 1;
         b = 1;
-        #0.5`ASSERT( sum==0 && cy==1 ); #0;
+        #0.5`ASSERT( sum==0 && cy==1 );
         #0.5;
 
         a = 0;
         b = 0;
-        #0.5 `ASSERT( sum==0 && cy==0 ); #0;
+        #0.5 `ASSERT( sum==0 && cy==0 );
         #0.5;
         
         $finish;
