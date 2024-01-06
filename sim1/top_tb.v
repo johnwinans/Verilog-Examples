@@ -73,7 +73,7 @@ module tb();
 
         #1;     // 30ns
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        // what is we DON'T wait more time?
+        // what if we DON'T wait more time?
 
         a = 1;
         b = 0;
