@@ -16,6 +16,7 @@ module tb();
     end
     
     always #1 clk = ~clk;
+    // always @(*) #1 clk = ~clk;   // this is NOT the same thing!!
 
     initial begin
         #1000;
