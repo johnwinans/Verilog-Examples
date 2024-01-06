@@ -13,6 +13,12 @@ SUBDIRS= \
 	halfadder7 \
 	halfadder8 \
 	blinky1 \
-	blinky2
+	blinky2 \
+	sim1 \
+	sim2 \
+	sim3 \
+	sim4 \
+	sim5 \
+	sim6 \
 
 include $(TOP)/Make.rules
