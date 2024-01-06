@@ -24,7 +24,7 @@ module tb();
 // and then halt the simulation immediately upon a failure.
 
 `define ASSERT(cond) \
-        #0 if ( ~(cond) ) begin \
+        if ( ~(cond) ) begin \
             $display("%s:%0d %m time:%5t ASSERTION FAILED: cond", `__FILE__, `__LINE__, $time ); \
             $finish; \
         end
@@ -37,33 +37,35 @@ module tb();
         a = 0;
         b = 0;
 
-        `ASSERT( sum==0 && cy==0 );
         #1;
+        `ASSERT( sum==0 && cy==0 );
 
         a = 0;
         b = 1;
 
-        `ASSERT( sum==1 && cy==0 );
         #1;
+        `ASSERT( sum==1 && cy==0 );
 
         a = 1;
         b = 0;
 
-        `ASSERT( sum==1 && cy==0 );
         #1;
+        `ASSERT( sum==1 && cy==0 );
 
         a = 1;
         b = 1;
 
+        #1;
         `ASSERT( sum==0 && cy==1 );
-        #1;
 
         a = 0;
         b = 0;
+
+        #1
         `ASSERT( sum==0 && cy==0 );
+
         #2;
-        
-        $finish;    // The $finish 'system task' halts the simulation
+        $finish;
     end
 
 endmodule

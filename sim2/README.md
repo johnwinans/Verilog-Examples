@@ -1,2 +1,7 @@
-Note that since the .pcf file is not used by test-benches.
-Therefore it can not interfere with our ability to compile and run a simulation of it.
+# Veriolog Simulation Timing
+
+When do the values of things actually change during simulation?
+
+## Topics
+
+- $strobe

@@ -66,34 +66,34 @@ module tb();
         // by now.
 
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        #1;     // wait some more so that the following won't interfere with the $display
+        #1;     // wait some more so that the following won't interfere with the $display ??
 
         a = 0;
         b = 1;
 
-        #1;
+        #1;     // 30ns
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        #1;
+        // what is we DON'T wait more time?
 
         a = 1;
         b = 0;
 
-        #1;
+        #1;     // 40ns
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        #1;
 
         a = 1;
         b = 1;
 
-        #1;
+        // $display("THIS IS TOO EARLY %5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
+
+        #1;     // 50ns
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        #1;
 
         a = 0;
         b = 0;
-        #1;
+        #1;     // 60ns
         $display("%5t: a=%b, b=%b, sum=%b, cy=%b", $time, a, b, sum, cy);
-        #2;
+        #2;     // 80ns
         
         $finish;    // The $finish 'system task' halts the simulation
     end

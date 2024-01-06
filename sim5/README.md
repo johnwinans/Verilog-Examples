@@ -1,2 +1,8 @@
-Note that since the .pcf file is not used by test-benches.
-Therefore it can not interfere with our ability to compile and run a simulation of it.
+# Veriolog Simulation Timing
+
+Creating an ASSERT macro with conditional expression to clean up test bench clutter.
+
+## Topics
+
+- `define
+- ? :

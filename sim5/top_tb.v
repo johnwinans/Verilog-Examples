@@ -24,41 +24,42 @@ module tb();
 // we can use a macro to print and check everything to reduce visual clutter.
 // Note the #0  
 
-`define ASSERT(cond) \
-        #0 $display("%s:%0d %m time:%5t a=%b, b=%b, sum=%b, cy=%b   %0s", `__FILE__, `__LINE__, $time, a, b, sum, cy, (cond) ? "passed" : "ASSERTION (cond) FAILED!" );
+`define ASSERT(cond) $display("%s:%0d %m time:%3t a=%b, b=%b, sum=%b, cy=%b   %0s", `__FILE__, `__LINE__, $time, a, b, sum, cy, (cond) ? "passed" : "ASSERTION (cond) FAILED!" );
 
 
     initial begin
         a = 0;
         b = 0;
 
-        `ASSERT( sum==0 && cy==0 );
         #1;
+        `ASSERT( sum==0 && cy==0 );
 
         a = 0;
         b = 1;
 
-        `ASSERT( sum==1 && cy==0 );
         #1;
+        `ASSERT( sum==1 && cy==0 );
 
         a = 1;
         b = 0;
 
-        `ASSERT( sum==1 && cy==0 );
         #1;
+        `ASSERT( sum==1 && cy==0 );
 
         a = 1;
         b = 1;
 
+        #1;
         `ASSERT( sum==0 && cy==1 );
-        #1;
 
         a = 0;
         b = 0;
+
+        #1;
         `ASSERT( sum==0 && cy==0 );
+
         #2;
-        
-        $finish;    // The $finish 'system task' halts the simulation
+        $finish;
     end
 
 endmodule
