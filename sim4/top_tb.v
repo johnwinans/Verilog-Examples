@@ -29,7 +29,7 @@ module tb();
         // cycle in the current time.
         //
         // This means that using #0 will cause everything else that is ALREADY
-        // scheduled to finish 'now' will be completed before proceeding.
+        // scheduled to finish 'now' to be completed before proceeding.
         // #0 is a request to move myself to the back of a queue.  As long as 
         // nothing else gets put in that queue before the time advances then
         // all will be fine.  But if something in the queue now causes more
