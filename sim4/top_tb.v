@@ -1,5 +1,7 @@
 `timescale 10ns/1ns
 
+`default_nettype none
+
 module tb();
 
     reg a;

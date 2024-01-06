@@ -2,6 +2,11 @@
 // 1ns is the resolution of the times stored in the simulation VCD (Value Change Dump) file
 `timescale 10ns/1ns
 
+
+// Disable the default net type so that you can not be fooled into trouble.
+`default_nettype none
+
+
 // Create a module named 'tb' that has no ports
 module tb();
 
