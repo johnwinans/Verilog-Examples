@@ -22,7 +22,6 @@ module tb();
 
 // Since this test bench is simple and all checks use the same values,
 // we can use a macro to print and check everything to reduce visual clutter.
-// Note the #0  
 
 `define ASSERT(cond) $display("%s:%0d %m time:%3t a=%b, b=%b, sum=%b, cy=%b   %0s", `__FILE__, `__LINE__, $time, a, b, sum, cy, (cond) ? "passed" : "ASSERTION (cond) FAILED!" );
 

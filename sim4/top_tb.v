@@ -23,10 +23,20 @@ module tb();
         a = 0;
         b = 0;
 
-        // #0 will cause all the assignments in THIS process block to finish 
-        // before proceeding. This does NOT mean that things OUTSIDE of this 
-        // process block and that SHOULD be finished 'now' as well will have
-        // completed!  Using #0 may not be as reliable as it is here!
+        // 1364-2005 11.3: An explicit zero delay (#0) requires that the 
+        // process be suspended and added as an inactive event for the
+        // current time so that the process is resumed in the next simulation 
+        // cycle in the current time.
+        //
+        // This means that using #0 will cause everything else that is ALREADY
+        // scheduled to finish 'now' will be completed before proceeding.
+        // #0 is a request to move myself to the back of a queue.  As long as 
+        // nothing else gets put in that queue before the time advances then
+        // all will be fine.  But if something in the queue now causes more
+        // things to get in the queue then those new things will happen
+        // after the $display() 
+        //
+        // In this simple application using #0 like this is OK.
         #0 $display("%5t: a=%b, b=%b, sum=%b, cy=%b %s", $time, a, b, sum, cy, (sum==0 && cy==0)? "pass" : "fail" );
         #1;
 
