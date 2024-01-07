@@ -32,7 +32,7 @@ module tb();
     initial begin
         // We can add a monitor if we want to watch changes too
         //$monitor("time:%5t ", $time, a, b, sum, cy );   // this will print the values smashed together
-        $monitor("time:%5t a=%b b=%b sum=%b cy=%b", $time, a, b, sum, cy );
+        //$monitor("time:%5t a=%b b=%b sum=%b cy=%b", $time, a, b, sum, cy );
 
         a = 0;
         b = 0;

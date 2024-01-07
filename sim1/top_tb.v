@@ -30,7 +30,6 @@ module tb();
     and( cy, a, b );
 
 
-
     // 'initial' is a 'process' that will run once when the simulation starts
     // $xyz is the notation used to refer to a 'system task'
     initial begin
@@ -42,7 +41,7 @@ module tb();
     // All initial process blocks will start at the same time and run in parallel.
     initial begin
         a = 0;      // = is a 'blocking assignment' that runs in the order given during simulation
-        b = 0;
+        b = a;
 
         // Because zero time has passed since assigning values above, the 
         // simulator may not have had time to perform the XOR and AND operations.

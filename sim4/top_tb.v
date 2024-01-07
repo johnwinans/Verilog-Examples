@@ -13,7 +13,6 @@ module tb();
     assign sum = a ^ b;
     assign  cy = a & b;
 
-
     initial begin
         $dumpfile("top_tb.vcd");
         $dumpvars;

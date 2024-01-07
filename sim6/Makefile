@@ -18,7 +18,3 @@ run: top_tb.vvp
 
 plot: top_tb.vcd
 	gtkwave $^
-
-prog: top.bin
-	$(FLASH_PROG) $^
-
