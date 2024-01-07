@@ -14,7 +14,7 @@ When do the values of things actually change during simulation?
 - initial (process blocks)
 - begin / end
 - blocking assignment 
-- # (timing control)
+- \# (timing control)
 - $display
 - $time
 - $finish
