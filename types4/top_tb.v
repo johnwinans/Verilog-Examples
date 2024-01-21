@@ -15,12 +15,14 @@ module tb();
 
         #1;
         aa[0] = 12;             // set vector 0 all at once
-        $display(aa[0], aa[1], aa[2], aa[3]);
+        $display("%b ", aa[0], aa[0], aa[1], aa[2], aa[3]);
         #1;
 
         aa[0][3] = 0;           // clear the MSB of vector zero
-        $display(aa[0], aa[1], aa[2], aa[3]);
+        $display("%b ", aa[0], aa[0], aa[1], aa[2], aa[3]);
         #1;
+
+        $display();
 
         aa[2][2] = 0;          // a[2] will be an upper-case X because not all bits are set
         $display(aa[0], aa[1], aa[2], aa[3]);

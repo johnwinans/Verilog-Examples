@@ -33,6 +33,7 @@ module tb();
         #1;
 
 
+        $display();
         b = 0;
         $display("%b %h %d", b, b, b);
         #1;
@@ -43,19 +44,20 @@ module tb();
         $display("%b %h %d", b, b, b);
         #1;
 
+        $display();
         v = b;              // what will this do?
+        $display("v=b:");
         $display("%b %h %d", v, v, v);
         #1;
 
         //v = b[3:0];       // this won't compile
 
-        v = { b[3], b[2], b[1], b[0] };     // {} is the concatenation operator
+        v[3:0] = { b[3], b[2], b[1], b[0] };     // {} is the concatenation operator
         $display("%b %h %d", v, v, v);
         #1;
 
         v = 0;
-        #1;
-        v[3:2] = 3;         // assign a range of to two bits
+        v[3:2] = 3;         // assign a range of to two bits 'd3 = 'b11
         $display("%b %h %d", v, v, v);
 
         #30;
