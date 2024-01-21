@@ -20,5 +20,10 @@ SUBDIRS= \
 	sim4 \
 	sim5 \
 	sim6 \
+	types1 \
+	types2 \
+	types3 \
+	types4
+
 
 include $(TOP)/Make.rules
