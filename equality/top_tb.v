@@ -4,14 +4,10 @@ module tb();
 
     reg         a;
     reg         b;
-    reg [7:0]   c;
-    reg [7:0]   d;
 
     initial begin
         $dumpfile("top_tb.vcd");    // where to write the dump
         $dumpvars;                  // dump EVERYTHING
-
-        //$monitor("time:%2t a=%d b=%d c=%d d=%d", $time, a, b, c, d );
 
         a = 'bx;
         #1;
