@@ -200,6 +200,12 @@ module tb();
         else
             $display( "%b !== %b is false", a, b );
 
+        $display();
+        if ( ( 'bx == 'bx ) === ( 'bx != 'bx ) )
+            $display( "( 'bx == 'bx ) === ( 'bx != 'bx )  is true" );
+        else
+            $display( "( 'bx == 'bx ) === ( 'bx != 'bx )  is false" );
+        
         $finish;
     end
 
