@@ -17,7 +17,7 @@ The Verilog spec says:
 
 Note that x is always considered false.
 
-if ( 'bx )
-	// never gets here
-else
-	// always gets here
+	if ( 'bx )
+		// never gets here
+	else
+		// always gets here
