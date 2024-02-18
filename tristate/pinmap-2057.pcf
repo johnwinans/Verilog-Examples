@@ -1,3 +1,5 @@
 set_io              led1    118
-set_io -pullup yes  s1      102
-set_io -pullup yes  out     44
+set_io -pullup yes  s1_n    102
+
+#set_io -pullup yes  d_out   44		# pin 44 is on bank 3 :-(
+set_io -pullup yes  d_out   143
