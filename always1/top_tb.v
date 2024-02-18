@@ -43,6 +43,7 @@ module tb();
 //    always @( a, b, c )       // if we list ALL the RHS signals here, then is same as *
 //    always @( a or b or c )   // the original way... eewwwww! (punctuation is clearer!)
     begin
+        // note that else-if, else-if,... is not necessairly the best way to do this
         if ( {a,b,c} == 0 )         Y = 8'b00000001;    // use begin/end if need mult statements
         else if ( {a,b,c} == 1 )    Y = 8'b00000010;
         else if ( {a,b,c} == 2 )    Y = 8'b00000100;
