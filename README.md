@@ -1,6 +1,7 @@
 # Apps for Discussing Verilog and ICE40 FPGAs
 
-The latest ICE40 FPGA docs can be found here: https://www.latticesemi.com/Products/FPGAandCPLD/iCE40
+- These are the examples for a Verilog tutorial on [YouTube](https://www.youtube.com/playlist?list=PL3by7evD3F52On-ws9pcdQuEL-rYbNNFB).
+- The latest ICE40 FPGA docs can be found here: https://www.latticesemi.com/Products/FPGAandCPLD/iCE40
 
 # Get The FOSS Toolchain
 
