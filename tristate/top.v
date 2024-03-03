@@ -69,7 +69,7 @@ module XXtop (
     ) tri_state (
         .PACKAGE_PIN(d_out),            // the physical pin number with the pullup on it
         .OUTPUT_ENABLE(driver_enable),  // when driver_enable is high, turn on the output
-        .D_OUT_0(0)                     // the value to write out the pin when the driver is on
+        .D_OUT_0(1'b0)                  // the value to write out the pin when the driver is on
     );
 
     assign led1 = s1_n;                 // LED will go on when press s1
