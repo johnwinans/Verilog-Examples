@@ -52,7 +52,7 @@ module tb();
         en = 0;
         #1;
 
-        D[2] = 0;       // make sure stays dusabled even when D is not unknown
+        D[2] = 0;       // make sure stays disabled even when D is known/valid
         #1;
         
         $finish;
