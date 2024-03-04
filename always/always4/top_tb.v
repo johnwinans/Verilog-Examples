@@ -48,6 +48,7 @@ module tb();
         $finish;
     end
 
+    // remember that the == is a literal match
     always @*
     begin
         if ( {a,b,c} == 0 )         Y = 8'b00000001;

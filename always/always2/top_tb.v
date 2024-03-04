@@ -35,6 +35,12 @@ module tb();
         $finish;
     end
 
+    // When an always block optionally assigns a value to a variable like Y 
+    // below then an implied latch has to exist to retain its value when the
+    // block is executed but does not assign a new value to Y.  Such a 
+    // circuit is legal.  But is often not what is intended.
+    // SystemVerilog has an always_latch that can be used to indicate
+    // that such a design is by intent.
     always @*
     begin
         if ( {a,b,c} == 0 )         Y = 8'b00000001;

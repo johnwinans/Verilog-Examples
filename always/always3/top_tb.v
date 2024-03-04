@@ -35,6 +35,8 @@ module tb();
         $finish;
     end
 
+    // In this case, there is no implied latch.  If an omission has
+    // been made, a default value will be assigned.
     always @*
     begin
         if ( {a,b,c} == 0 )         Y = 8'b00000001;
