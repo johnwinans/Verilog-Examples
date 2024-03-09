@@ -19,7 +19,11 @@ module tb();
 
     // Two processes that can not be synthesized. 
     // But are useful for simulation to generate clock signals.
-    always #3 clk3 = ~clk3;
+    always begin
+        #3;
+        clk3 = ~clk3;
+    end
+
     always #11 clk11 = ~clk11;
 
     // This is a synthesizable combinational process/circuit.
