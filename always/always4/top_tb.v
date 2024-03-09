@@ -42,6 +42,8 @@ module tb();
         #1;
         b = 'bz;          // what happens if one of the inputs is floating?
         #1;
+        {a,b,c} = 3'b1x1;
+        #1;
         b = 'b0;
         #1;
         

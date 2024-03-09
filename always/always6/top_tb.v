@@ -22,7 +22,7 @@ module tb();
 
     initial begin
         // recall that unused values will just be printed in order
-        $monitor("time:%2t e=%b D=%h segs=", $time, e, D, a,b,c,d,e,f,g );
+        $monitor("time:%2t en=%b D=%h segs=", $time, en, D, a,b,c,d,e,f,g );
 
         $dumpfile("top_tb.vcd");
         $dumpvars;
