@@ -14,7 +14,7 @@ module led(
 
     assign {a,b,c,d,e,f,g} = segs;
 
-    always @*               // simple but subtle!
+    always @*
     begin
         if ( enable ) begin
             if ( D == 4'h0 )        segs = {7'b1111110};
