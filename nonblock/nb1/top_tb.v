@@ -1,4 +1,4 @@
-`timescale 1ns/1ps  
+`timescale 1ns/1ns
 
 module tb();
 
@@ -21,13 +21,13 @@ module tb();
         $finish;        // stop the simulation 
     end
 
-    always @(*)
-        $display("%5t: @(*) clk is %b", $time, clk);
+    always @(clk)
+        $display("%2t: @(*) clk is %b", $time, clk);
 
     always @(posedge clk)
-        $display("%5t: @(pos) clk is %b", $time, clk);
+        $display("%2t: @(pos) clk is %b", $time, clk);
 
     always @(negedge clk)
-        $display("%5t: @(neg) clk is %b", $time, clk);
+        $display("%2t: @(neg) clk is %b", $time, clk);
 
 endmodule
