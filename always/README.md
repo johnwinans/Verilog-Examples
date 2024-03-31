@@ -21,10 +21,10 @@ This is the same circuit defined with an always statement:
 ```
 reg a;
 always @(*) begin
-	if ( sel )
-		a = b;
-	else
-		a = c;
+    if ( sel )
+        a = b;
+    else
+        a = c;
 end
 ```
 
@@ -48,29 +48,29 @@ A sequential circuit can be defined with an `always` statement that has
 ### Positive-edge Triggered Flip-Flop
 ```
 always @( posedge clk ) begin
-	a <= b;
+    a <= b;
 end
 ```
 
 ### Positive-edge Triggered Flip-Flop With Synchronous Reset
 ```
 always @( posedge clk ) begin
-	if ( reset )		// note that reset is *not* in the sentitivity list
-		a <= 0;			// the assigned reset value must be a constant
-	else
-		a <= b;
+    if ( reset )        // note that reset is *not* in the sentitivity list
+        a <= 0;         // the assigned reset value must be a constant
+    else
+        a <= b;
 end
 ```
 
 ### Positive-edge Triggered Flip-Flop With Synchronous Set and Reset
 ```
 always @( posedge clk ) begin
-	if ( reset )		// note that reset is *not* in the sentitivity list
-		a <= 0;			// the assigned reset value must be a constant
-	else if ( set )		// set is *not* in the sentitivity list
-		a <= 1;			// the assigned set value must be a constant
-	else
-		a <= b;
+    if ( reset )        // note that reset is *not* in the sentitivity list
+        a <= 0;         // the assigned reset value must be a constant
+    else if ( set )     // set is *not* in the sentitivity list
+        a <= 1;         // the assigned set value must be a constant
+    else
+        a <= b;
 end
 ```
 
@@ -84,12 +84,12 @@ All the signals in the sensitivity list must be edge-sensitive.
 
 ```
 always @( posedge clk, posedge reset, negedge set ) begin
-	if ( reset )		// conditions must match the edge direction (pos)
-		a <= 0;
-	else if ( ~set )	// (neg)
-		a <= 1;
-	else				// the final/naked else is the synchronous operation
-		a <= b;
+    if ( reset )        // conditions must match the edge direction (pos)
+        a <= 0;
+    else if ( ~set )    // (neg)
+        a <= 1;
+    else                // the final/naked else is the synchronous operation
+        a <= b;
 end
 ```
 
@@ -97,10 +97,10 @@ The above circuit will work *better* as synthesized than in simulation.
 Consider simulation of the following signals: 
 ```
 clk=0, reset=0, set=1 
-clk=0, reset=1, set=1 		// reset
-clk=0, reset=1, set=0 		// reset!
-clk=0, reset=0, set=0		// ???
-clk=1, reset=0, set=0		// set!
+clk=0, reset=1, set=1       // reset
+clk=0, reset=1, set=0       // reset!
+clk=0, reset=0, set=0       // ???
+clk=1, reset=0, set=0       // set!
 clk=1, reset=0, set=1
 clk=0, reset=0, set=1
 ```
@@ -126,8 +126,8 @@ For example:
 
 ```
 always @(*) begin
-	if ( enable )
-		a <= b;			// a is only assigned a value when enable is 1
+    if ( enable )
+        a <= b;         // a is only assigned a value when enable is 1
 end
 ```
 
