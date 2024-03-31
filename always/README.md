@@ -86,7 +86,7 @@ All the signals in the sensitivity list must be edge-sensitive.
 always @( posedge clk, posedge reset, negedge set ) begin
     if ( reset )        // conditions must match the edge direction (pos)
         a <= 0;
-    else if ( ~set )    // (neg)
+    else if ( !set )    // (neg)
         a <= 1;
     else                // the final/naked else is the synchronous operation
         a <= b;
