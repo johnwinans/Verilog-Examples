@@ -35,7 +35,7 @@ models these memories as edge-sensitive `flip-flop` or level-sensitive
 `latch` circuits.
 
 Generally, you will want to use `non-blocking` assignments in sequential 
-circuits.  The expection would be if you need a variable to hold a temporary
+circuits.  The exception would be if you need a variable to hold a temporary
 value to be assigned to an output using a non-blocking assignment in the 
 same always statement.
 
