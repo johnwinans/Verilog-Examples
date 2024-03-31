@@ -11,7 +11,7 @@ sensitivity list.  It is a good idea to consider using `@(*)` and only
 `blocking` assignments.
 
 This continuous assignment defines a multiplexer.  When `sel` is true,
-`a` is assigned `b`.  When `sel` is false, `a` is assigned `c`.
+`a` is assigned the value of `b`.  When `sel` is false, `a` is assigned the value of `c`.
 ```
 wire a;
 assign a = sel ? b : c;
