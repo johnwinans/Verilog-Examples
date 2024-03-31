@@ -131,7 +131,7 @@ always @(*) begin
 end
 ```
 
-Note that, as lonmg as `enable` is true, this circuit will set `a=b` 
+Note that, as long as `enable` is true, this circuit will set `a=b` 
 Thus creating what is sometimes called a `transparent latch`.
 Such a latch will "capture" and retain the value of `b` by storing
 it in `a` at the point in time when `enable` changes from true to 
