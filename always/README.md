@@ -11,7 +11,7 @@ sensitivity list.  It is a good idea to consider using `@(*)` and only
 `blocking` assignments.
 
 This continuous assignment defines a multiplexer.  When `sel` is true,
-`a` is assigned `b`.  When `sel` is false, `a` is assigned `c`.
+`a` is assigned the value of `b`.  When `sel` is false, `a` is assigned the value of `c`.
 ```
 wire a;
 assign a = sel ? b : c;
@@ -35,7 +35,7 @@ models these memories as edge-sensitive `flip-flop` or level-sensitive
 `latch` circuits.
 
 Generally, you will want to use `non-blocking` assignments in sequential 
-circuits.  The expection would be if you need a variable to hold a temporary
+circuits.  The exception would be if you need a variable to hold a temporary
 value to be assigned to an output using a non-blocking assignment in the 
 same always statement.
 
@@ -86,7 +86,7 @@ All the signals in the sensitivity list must be edge-sensitive.
 always @( posedge clk, posedge reset, negedge set ) begin
     if ( reset )        // conditions must match the edge direction (pos)
         a <= 0;
-    else if ( ~set )    // (neg)
+    else if ( !set )    // (neg)
         a <= 1;
     else                // the final/naked else is the synchronous operation
         a <= b;
@@ -131,7 +131,7 @@ always @(*) begin
 end
 ```
 
-Note that, as lonmg as `enable` is true, this circuit will set `a=b` 
+Note that, as long as `enable` is true, this circuit will set `a=b` 
 Thus creating what is sometimes called a `transparent latch`.
 Such a latch will "capture" and retain the value of `b` by storing
 it in `a` at the point in time when `enable` changes from true to 
