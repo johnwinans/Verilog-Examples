@@ -85,7 +85,7 @@ module mod0
     // simulated in pieces.
     // Note the differences between using $display() and $strobe()
     always @(*) begin
-        $display( "time:%3d a:%b b:%b q1:%b q2:%b P1:%3d P2%3d P3:%3d P4:%3d LP1:%3d",
+        $display( "time:%3d a:%b b:%b q1:%b q2:%b P1:%3d P2:%3d P3:%3d P4:%3d LP1:%3d",
             $time, a, b, q1, q2, P1, P2, P3, P4, LP1 );
     end
 
