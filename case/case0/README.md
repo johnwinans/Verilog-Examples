@@ -54,6 +54,26 @@ the items, we can get different results from `casex` and `casez`!
 value, the `casex` is avoided for such designs... because it offers no 
 more than can be gained by `casez`.
 
-- Since simulation will propagate b'x values through circuits when one
+- Since simulation *can* propagate b'x values through circuits when one
 appears in its input(s), it can be useful to match them precisely in a
 test bench.  Avoiding the use of `casex` can make this easier.
+
+
+# A summary of the differences can be found on stackoverflow:
+
+https://stackoverflow.com/questions/34370901/casex-vs-casez-in-verilog
+
+The key difference is when the case expression instr contains `x` or `z` values. 
+Remember that both casex and casez look at both the case item and the case 
+expression for `x` and `z` values. We call this a symmetric comparison as don't 
+care values can show up in either place.
+
+So if instr was all x's, none of the items in the casez would match, but ALL 
+of the items in the casex would match, and a simulator would pick the first item. 
+Similarly, if instr were all z's, then ALL items would match. I consider 
+`casex` a useless construct.
+
+SystemVerilog replaces both statements with a `case() inside` statement. 
+It uses an asymmetric comparison operator `==?` that only treats an `x` or 
+`z` in the case item as a don't care.
+
