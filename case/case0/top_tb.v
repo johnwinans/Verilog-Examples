@@ -82,6 +82,10 @@ module tb();
         D = 4'b1zx1;       // make sure stays disabled even when D is z
         #1;
 
+        en = 1;
+        D = 4'b1z01;       // make sure stays disabled even when D is z
+        #1;
+
         $finish;
     end
 
