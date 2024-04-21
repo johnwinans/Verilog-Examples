@@ -45,7 +45,7 @@ time:26 en=1 D=1zx1 segs=1111011		// matches with 4'b1001 (the first wildcard ma
 
 # Observations:
 
-- The wildcard matches in these examples just happen to match against 
+- The wildcard matches of data in `D` in these examples just happen to match against 
 0 values in the case items.  This is only because the order of the items
 in the source code are in ascending order.  If we rearrange the order of
 the items, we can get different results from `casex` and `casez`!
