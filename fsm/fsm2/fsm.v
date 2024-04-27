@@ -37,6 +37,9 @@ module fsm (
     reg [1:0]  S_reg, S_next;
 
     // advance the FSM state on the rising edge of clk
+    // Note: The reset logic is implemented here to ensure synthesys 
+    // recognizes the always block as a FF with synch reset.
+
     always @(posedge clk) begin
         if (reset)
             S_reg <= 2'b0;      // reset the FSM
