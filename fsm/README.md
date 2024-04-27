@@ -9,4 +9,4 @@
 Some of these examples are based on course notes and handouts that can 
 be found here:
 
-	https://faculty.cs.niu.edu/~winans/CS463/2022-fa/#fsm
+https://faculty.cs.niu.edu/~winans/CS463/2022-fa/#fsm
