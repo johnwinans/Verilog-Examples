@@ -5,14 +5,14 @@ module tb();
     localparam  COUNTER_WIDTH = 4;
     localparam  COUNTER_MAX = $pow( 2, COUNTER_WIDTH );
 
-    reg         clk = 0;        // what happens to setup & hold if we start high?
+    reg         clk = 1;        // what happens to setup & hold if we start high?
     reg         reset = 0;      // system is not reset by default
 
     wire [COUNTER_WIDTH-1:0]  count;
 
     fsm #( .WIDTH(COUNTER_WIDTH) ) uut ( .clk(clk), .reset(reset), .D(count) );
 
-    always #1 clk = ~clk;       // free-running clock to run the FSM
+    always #1 clk <= ~clk;       // free-running clock to run the FSM
 
     initial begin
         // NOTE: $monitor will not trigger on things changed in other modules
@@ -22,7 +22,7 @@ module tb();
         $dumpfile("top_tb.vcd");
         $dumpvars;
 
-        //#0.1;   // be careful with this if precision is same as time units!
+        //#0.2    // be careful with this if precision is same as time units!
         #10;    // just to make the reset seem interesting
         reset = 1;
         #4;     // two simulation time units = one clock period

@@ -78,4 +78,6 @@ module fsm(
         endcase
     end
 
+    //assign Q = S_reg==2'b10 && D == 1'b1;
+
 endmodule
