@@ -12,12 +12,12 @@ module tb();
 
     fsm #( .WIDTH(COUNTER_WIDTH) ) uut ( .clk(clk), .reset(reset), .D(count) );
 
-    always #1 clk <= ~clk;       // free-running clock to run the FSM
+    always #1 clk = ~clk;       // free-running clock to run the FSM
 
     initial begin
         // NOTE: $monitor will not trigger on things changed in other modules
         $monitor("time:%2t reset=%b count=%h", $time, reset, count );
-        $display("COUNTER_WIDTH:%d COUNTER_MAX:%d", COUNTER_WIDTH, COUNTER_MAX );
+        $display("COUNTER_WIDTH:%3d COUNTER_MAX:%3d", COUNTER_WIDTH, COUNTER_MAX );
 
         $dumpfile("top_tb.vcd");
         $dumpvars;

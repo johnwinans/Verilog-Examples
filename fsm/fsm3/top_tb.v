@@ -9,7 +9,7 @@ module tb();
 
     fsm uut ( .clk(clk), .reset(reset), .D(D), .Q(Q) );
 
-    always #1 clk <= ~clk;       // free-running clock to run the FSM
+    always #1 clk = ~clk;       // free-running clock to run the FSM
 
     initial begin
         $dumpfile("top_tb.vcd");

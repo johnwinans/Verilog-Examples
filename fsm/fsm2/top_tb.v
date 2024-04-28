@@ -10,7 +10,7 @@ module tb();
 
     fsm uut ( .clk(clk), .reset(reset), .E(enable), .S(state) );
 
-    always #1 clk <= ~clk;       // free-running clock to run the FSM
+    always #1 clk = ~clk;       // free-running clock to run the FSM
 
     initial begin
         // NOTE: $monitor will not trigger on things changed in other modules
