@@ -21,7 +21,6 @@
 
 // See the following for details on the FSM in this design:
 // https://faculty.cs.niu.edu/~winans/CS463/2022-fa/#fsm
-// https://faculty.cs.niu.edu/~winans/CS463/notes/fsm.pdf
 
 // This FSM is a recognizer with synchronous reset.
 
@@ -36,10 +35,9 @@ module fsm(
     reg [1:0]  S_reg, S_next;
 
     // the course handout uses a falling edge clock
-    always @(negedge clk) begin
+    always @(negedge clk)
         if (reset)  S_reg <= 2'b0;
         else        S_reg <= S_next;
-    end
 
     always @(*) begin
         S_next = 2'bxx;

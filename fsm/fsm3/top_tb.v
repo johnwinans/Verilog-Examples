@@ -20,7 +20,7 @@ module tb();
         #4;
         reset = 0;
 
-        // match the example waveform in the course handout
+        // match the example waveform in Figure 5 of the course handout
         D = 0;
         #2;
         D = 1;
