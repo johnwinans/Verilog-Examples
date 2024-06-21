@@ -39,43 +39,6 @@ fi
 
 ######################################
 
-if [ ! -d /sys/class/gpio/gpio${SSEL} ]; then
-    echo "GPIO ${SSEL} not exported, trying to export..."
-    echo ${SSEL} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${SSEL} ]; then
-	echo "ERROR: directory /sys/class/gpio/gpio${SSEL} does not exist"
-	exit 1
-    fi
-else
-    echo "OK: GPIO ${SSEL} exported"
-fi
-
-######################################
-if [ ! -d /sys/class/gpio/gpio${CRESET} ]; then
-    echo "GPIO ${CRESET} not exported, trying to export..."
-    echo ${CRESET} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${CRESET} ]; then
-    echo "ERROR: directory /sys/class/gpio/gpio${CRESET} does not exist"
-    exit 1
-    fi
-else
-    echo "OK: GPIO ${CRESET} exported"
-fi
-
-######################################
-if [ ! -d /sys/class/gpio/gpio${FRESET} ]; then
-    echo "GPIO ${FRESET} not exported, trying to export..."
-    echo ${FRESET} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${FRESET} ]; then
-    echo "ERROR: directory /sys/class/gpio/gpio${FRESET} does not exist"
-    exit 1
-    fi
-else
-    echo "OK: GPIO ${FRESET} exported"
-fi
-
-######################################
-
 echo ""
 if [ -e ${SPI_DEV} ]; then
     echo "OK: SPI driver loaded"
@@ -104,9 +67,7 @@ fi
 # with the FPGA's ability to boot from flash!
 
 echo "changing SSEL to an input so is not driven by the PI"
-echo in > /sys/class/gpio/gpio${SSEL}/direction
-cat /sys/class/gpio/gpio${SSEL}/direction
-
+pinctrl set ${SSEL} ip
 
 
 ######################################
@@ -114,12 +75,10 @@ cat /sys/class/gpio/gpio${SSEL}/direction
 
 echo ""
 echo "Changing direction to out"
-echo out > /sys/class/gpio/gpio${CRESET}/direction
-cat /sys/class/gpio/gpio${CRESET}/direction
+pinctrl set ${CRESET} op
 
 echo "Resetting the FPGA (should be 0)"
-echo 0 > /sys/class/gpio/gpio${CRESET}/value
-cat /sys/class/gpio/gpio${CRESET}/value
+pinctrl set ${CRESET} dl
 sleep 1
 
 # Note that we KEEP the reset asserted here so the 
@@ -130,16 +89,14 @@ sleep 1
 # Cycle FRESET low and back hi to reset the FLASH
 echo ""
 echo "Changing FRESET direction to out"
-echo out > /sys/class/gpio/gpio${FRESET}/direction
-cat /sys/class/gpio/gpio${FRESET}/direction
+pinctrl set ${FRESET} op
+
 
 echo "Resetting the FLASH (should be 0)"
-echo 0 > /sys/class/gpio/gpio${FRESET}/value
-cat /sys/class/gpio/gpio${FRESET}/value
+pinctrl set ${FRESET} dl
 sleep 1
 echo "Floating the FRESET so it is not driven by the PI"
-echo in > /sys/class/gpio/gpio${FRESET}/direction
-cat /sys/class/gpio/gpio${FRESET}/direction
+pinctrl set ${FRESET} ip
 
 
 ######################################
@@ -160,10 +117,8 @@ rm -f ${TMPBIN}
 ######################################
 
 echo "Releasing CRESET... (should be 1)"
-echo 1 > /sys/class/gpio/gpio${CRESET}/value
-cat /sys/class/gpio/gpio${CRESET}/value
+pinctrl set ${CRESET} dh
 
 
 echo "Floating the CRESET so it is not driven by the PI"
-echo in > /sys/class/gpio/gpio${CRESET}/direction
-cat /sys/class/gpio/gpio${CRESET}/direction
+pinctrl set ${CRESET} ip
