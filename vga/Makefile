@@ -1,6 +1,7 @@
 TOP=..
 
 SUBDIRS= \
-	sync
+	sync \
+	bars
 
 include $(TOP)/Make.rules
