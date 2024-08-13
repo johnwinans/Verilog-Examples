@@ -19,7 +19,7 @@ module ps2 (
         if (reset) begin
             rx_reg <= 0;
             rx_count_reg <= 0;
-            rx_ready_next <= 0;
+            rx_ready_reg <= 0;
         end else begin
             rx_reg <= rx_next;
             rx_count_reg <= rx_count_next;
