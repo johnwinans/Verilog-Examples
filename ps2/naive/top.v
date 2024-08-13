@@ -9,11 +9,15 @@ module top (
     output  wire [7:0]  led
     );
 
+    wire [7:0] data;
+
     ps2 kbd (
         .reset(~s1_n),
         .ps2_data(kbdata),
         .ps2_clk(kbclk),
-        .rx_data(led)       // note the MSB is pruned
+        .rx_data(data)       // note the MSB is pruned
         );
+
+        assign led = ~data;
 
 endmodule

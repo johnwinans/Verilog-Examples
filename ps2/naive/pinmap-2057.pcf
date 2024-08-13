@@ -12,5 +12,5 @@ set_io              led[5]  112
 set_io              led[6]  110
 set_io              led[7]  107
 
-set_io              kbclk	60
-set_io              kbdata	62
+set_io -pullup yes  kbclk	60
+set_io -pullup yes	kbdata	62
