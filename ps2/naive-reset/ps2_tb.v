@@ -30,14 +30,16 @@ module tb();
         #1
         reset = 1;
         ps2c = 0;       // simulate the feedback from the pin
+        ps2d = 0;
         #4;
         reset = 0;
         ps2c = 1;       // simulate the feedback from the pin
-        #10;
+        #5;
 
         // wait the reset operation to complete
         for ( i = 0; i < 11; i = i + 1 ) begin
             ps2c = 0;
+            ps2d = 1;
             #1;
             ps2c = 1;
             #1;
