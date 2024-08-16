@@ -29,8 +29,10 @@ module tb();
     initial begin
         #1
         reset = 1;
+        ps2c = 0;       // simulate the feedback from the pin
         #4;
         reset = 0;
+        ps2c = 1;       // simulate the feedback from the pin
         #10;
 
         // wait the reset operation to complete
