@@ -4,12 +4,12 @@ module top (
     input   wire        clk25,
     input   wire        s1_n,
     input   wire        s2_n,
-    input   wire        kbclk,      // an input but we will use an SB_IO to control direction
-    input   wire        kbdata,     // an input but we will use an SB_IO to control direction
+    input   wire        kbclk,      // we will use an SB_IO to control direction
+    input   wire        kbdata,     // we will use an SB_IO to control direction
     output  wire [7:0]  led
     );
 
-    wire [7:0] data;
+    wire [8:0] data;        // includes the parity bit
 
     // the 'inside' signals we use for the tri-state logic
     wire        kbdata_in, kbdata_out;
@@ -18,7 +18,7 @@ module top (
     // explicitly configure the PS2 IO pins (to make yosys happy)
     // See FPGA-TN-02026-3.2 (iCE40 Technology Library), page 83
     SB_IO #(
-        .PIN_TYPE(6'b1010_01),
+        .PIN_TYPE(6'b101001),
         .PULLUP(1'b1)
     ) io_buf_kbclk (
         .PACKAGE_PIN(kbclk),
@@ -28,7 +28,7 @@ module top (
     );
 
     SB_IO #(
-        .PIN_TYPE(6'b1010_01),
+        .PIN_TYPE(6'b101001),
         .PULLUP(1'b1)
     ) io_buf_kbdata (
         .PACKAGE_PIN(kbdata),
@@ -46,6 +46,6 @@ module top (
         .rx_data(data)       // note the MSB is pruned
         );
 
-    assign led = ~data;
+    assign led = ~data[7:0];
 
 endmodule

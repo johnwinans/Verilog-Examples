@@ -34,7 +34,7 @@ module ps2 (
 
         // XXX this is sooooooooo bad!!!!!
         if ( ps2_data_reg == 0 ) 
-            rx_count_next = 0;   // XXX stall the counter by 1 during the reset cycle
+            rx_count_next = 0;   // XXX stall the counter during the reset cycle
         else
             rx_count_next = ( rx_count_reg + 1 ) % 11;  // modulo 12 counter
 
@@ -51,9 +51,10 @@ module ps2 (
 
     always @ (negedge ps2_clk_in, posedge reset) begin
         if (reset) begin
-            ps2_data_reg <= 0;              // keyboard reset hack
+            // if reset is active, hold down the data line
+            ps2_data_reg <= 0;
         end else begin
-            // release the data line when see the first ps2_clk
+            // if reset is not active then release the data line on the next negedge ps2_clk_in
             ps2_data_reg <= 1;
         end
     end
