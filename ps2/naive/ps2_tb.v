@@ -84,7 +84,6 @@ module tb();
         #1;
         ps2c = 1;
 
-
         #5;
 
         // start bit
@@ -96,7 +95,7 @@ module tb();
 
         // data bits
         for ( i = 0; i < 8; i = i + 1 ) begin
-            ps2d = i&1;         // set every othuer bit
+            ps2d = i&1;         // set every other bit
             #1;
             ps2c = 0;
             #1;
@@ -116,7 +115,6 @@ module tb();
         ps2c = 0;
         #1;
         ps2c = 1;
-
 
         #10;
         $finish;

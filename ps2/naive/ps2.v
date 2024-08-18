@@ -50,7 +50,7 @@ module ps2 (
 
     always @(*) begin
         rx_next = { ps2_data, rx_reg[9:1] };        // shift in LSB first
-        rx_count_next = ( rx_count_reg + 1 ) % 11;  // modulo 12 counter
+        rx_count_next = ( rx_count_reg + 1 ) % 11;  // modulo 11 counter
         rx_ready_next = rx_count_reg == 10;         // 1 when reporting the last of the 11 bits
     end
 
