@@ -21,12 +21,17 @@
 
 `default_nettype none
 
+
+`ifdef notdefined
+
 /**
 * This attempts to create an open-collector style output with a pullup.
 **************************************************************************/
 module top (
     input  wire     s1_n,
+    input  wire     s2_n,
     output wire     led1,
+    output wire     led2,
     output wire     d_out
     );
 
@@ -37,19 +42,23 @@ module top (
     // So this misfeature is probably a thing.
 
     assign led1 = s1_n;                 // LED will go on when press s1
-    assign d_out = ~s1_n ? 1'b0 : 1'bz; // tri-state when s1 is released
+    assign led2 = s2_n;                 // LED will go on when press s2
+
+    assign d_out = ~s1_n ? ~s2_n : 1'bz; // tri-state when s1 is released
 
 endmodule
 
-
+`else
 
 /**
 * Manually can configure the IO block to be the way we want it.
 * See The LATTICE ICE Technology Library (SBTICETechnologyLibrary201504.pdf)
 **************************************************************************/
-module XXtop (
+module top (
     input  wire     s1_n,
+    input  wire     s2_n,
     output wire     led1,
+    output wire     led2,
     output wire     d_out
     );
 
@@ -61,20 +70,23 @@ module XXtop (
     // By default, the IO will have NO pull up. This parameter is used only 
     // on bank 0, 1, and 2. Ignored when it is placed at bank 3.
     //
-    // And yet... it seems to work fine on pin 44 (which is on bank 3.)
+    // And yet... it seems to work fine on pin 1 (which is on bank 3.)
 
     SB_IO #(
         .PIN_TYPE(6'b1010_01),
         .PULLUP(1'b1)                   // enable the pullup
+//        .PULLUP(1'b0)                   // enable the pullup
     ) tri_state (
         .PACKAGE_PIN(d_out),            // the physical pin number with the pullup on it
         .OUTPUT_ENABLE(driver_enable),  // when driver_enable is high, turn on the output
-        .D_OUT_0(1'b0)                  // the value to write out the pin when the driver is on
+        .D_OUT_0(~s2_n)                 // the value to write out the pin when the driver is on
     );
 
     assign led1 = s1_n;                 // LED will go on when press s1
+    assign led2 = s2_n;                 // LED will go on when press s2
 
     assign driver_enable = ~s1_n;       // turn on driver when s1 is low
 
 endmodule
 
+`endif

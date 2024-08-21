@@ -6,6 +6,8 @@ SUBDIRS= \
 	sim \
 	blinky \
 	types \
-	always
+	always \
+	vga \
+	sb_io
 
 include $(TOP)/Make.rules
