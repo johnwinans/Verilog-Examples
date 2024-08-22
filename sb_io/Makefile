@@ -1,7 +1,7 @@
 TOP=..
 
 SUBDIRS= \
-	octest \
+	bidir \
 	tristate
 
 include $(TOP)/Make.rules

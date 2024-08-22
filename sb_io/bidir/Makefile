@@ -8,9 +8,6 @@ include $(TOP)/Make.rules
 FILES= \
 	top.v
 
-# FPGA oscillator speed 
-OSC_CLK=25
-
 all:: top.bin
 
 top.json: $(FILES)
