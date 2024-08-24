@@ -22,7 +22,8 @@
 `default_nettype none
 
 
-`ifdef notdefined
+//`define use_ternary
+`ifdef use_ternary
 
 /**
 * This attempts to create an open-collector style output with a pullup.

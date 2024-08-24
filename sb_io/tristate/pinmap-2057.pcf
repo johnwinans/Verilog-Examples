@@ -7,6 +7,6 @@ set_io -pullup yes  s2_n    105
 # test cases for each bank (See ice40pinouthx4k.xlsx)
 
 set_io d_out   143    # pin 143 is on bank 0
-#set_io d_out   82     # pin 143 is on bank 1
+#set_io d_out   82     # pin 82 is on bank 1
 #set_io d_out   44     # pin 44 is on bank 2
-#set_io d_out   1      # pin 143 is on bank 3
+#set_io d_out   1      # pin 1 is on bank 3
