@@ -56,6 +56,6 @@ module top (
     assign driver_enable = ~s1_n;       // turn on driver when s1 is low
 
     assign led1 = driver_enable;        // LED will light when driver is enabled
-    assign led2 = ~pin_value;           // LED will light when the pin is high
+    assign led2 = ~pin_value;           // LED will light when the pin is high (the actual pin value)
 
 endmodule
