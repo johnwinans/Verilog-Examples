@@ -2,6 +2,7 @@ TOP=..
 
 SUBDIRS= \
 	bidir \
-	tristate
+	tristate_sb_io \
+	tristate_ternary
 
 include $(TOP)/Make.rules

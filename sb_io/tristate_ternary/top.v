@@ -22,8 +22,18 @@
 `default_nettype none
 
 /**
-* Manually can configure the IO block to do what we want.
-* See The LATTICE ICE Technology Library Tecnical Note (FPGA-TN-02026-3.2)
+* This attempts to create a tri-state output.
+*
+* When s1 is pressed (low) the output driver will be enabled.
+* When the the output driver is enabled, s2 pressed will cause the
+* output to be driven high and when s2 is released the output will
+* be driven low.
+*
+* Yosys does not include the pullup (if the pcf file requests it)
+* on outputs with inferred tristate drivers.
+*
+* Note that Yosys will only (currently) infer a tristate driver
+* if the ternary operator is used to drive an output pin.
 **************************************************************************/
 module top (
     input  wire     s1_n,
@@ -33,29 +43,15 @@ module top (
     output wire     d_out
     );
 
-    wire driver_enable;
-
-    // FPGA-TN-02026-3.2 notes the following regarding
-    // the PULLUP parameter on the SB_IO:
+    // This does not seem to turn on the pullup when d_out=1'bz
+    // It *does* appear to let d_out float when it is set to z.
     //
-    // By default, the IO will have NO pull up. This parameter is used only 
-    // on bank 0, 1, and 2. Ignored when it is placed at bank 3.
-    //
-    // And yet... it seems to work fine on pin 1 (which is on bank 3.)
-
-    SB_IO #(
-        .PIN_TYPE(6'b1010_01),
-        .PULLUP(1'b1)                   // enable the pullup
-//        .PULLUP(1'b0)                   // disable the pullup
-    ) tri_state (
-        .PACKAGE_PIN(d_out),            // the physical pin number with the pullup on it
-        .OUTPUT_ENABLE(driver_enable),  // when driver_enable is high, turn on the output
-        .D_OUT_0(~s2_n)                 // the value to write out the pin when the driver is on
-    );
+    // Yosys includes a warning about limited tri-state support.  
+    // So this misfeature is probably a thing.
 
     assign led1 = s1_n;                 // LED will go on when press s1
     assign led2 = s2_n;                 // LED will go on when press s2
 
-    assign driver_enable = ~s1_n;       // turn on driver when s1 is low
+    assign d_out = ~s1_n ? ~s2_n : 1'bz; // tri-state when s1 is released
 
 endmodule
