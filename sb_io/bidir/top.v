@@ -19,7 +19,7 @@
 //
 //**************************************************************************
 
-`default_nettype none
+`default_nettype none                   // force the proper declaration of all signals
 
 /**
 * See iCE40 Technology Library Technical Note FPGA-TN-02026-3.2
@@ -33,15 +33,17 @@ module top (
     inout  wire     d_out
     );
 
-    wire driver_enable;
     wire pin_value;
+    wire driver_enable = ~s1_n;         // turn on driver when s1 is low
+
+    assign led1 = ~driver_enable;       // LED will light when driver is enabled
+    assign led2 = ~pin_value;           // LED will light when the pin is high (the actual pin value)
 
 `define infer_tristate
 `ifdef infer_tristate
     assign d_out = driver_enable ? 1'b0 : 1'bz; // tri-state when s1 is released
     assign pin_value = d_out;
 `else
-
     SB_IO #(
         .PIN_TYPE(6'b1010_01),
         .PULLUP(1'b1)                   // enable the pullup
@@ -52,10 +54,5 @@ module top (
         .D_IN_0(pin_value)              // a peek at the physical pin's current value
     );
 `endif
-
-    assign driver_enable = ~s1_n;       // turn on driver when s1 is low
-
-    assign led1 = driver_enable;        // LED will light when driver is enabled
-    assign led2 = ~pin_value;           // LED will light when the pin is high (the actual pin value)
 
 endmodule
