@@ -18,7 +18,7 @@ module tb();
 
     initial begin
         $dumpfile("ps2_tb.vcd");
-        $dumpvars;
+        $dumpvars(0,tb);
         reset = 0;
         ps2d = 1;
         ps2c = 1;

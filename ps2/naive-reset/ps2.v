@@ -44,19 +44,26 @@ module ps2 (
     assign rx_ready = rx_ready_reg;
     assign rx_data = rx_reg[8:0];                   // prune off the stop bit
 
-
-
     // used for the keyboard reset command hack
     reg         ps2_data_reg;
 
     always @ (negedge ps2_clk_in, posedge reset) begin
+/*
+        if ( reset ) 
+            ps2_data_reg <= 0;
+        else
+            ps2_data_reg <= ~reset;
+*/
+
         if (reset) begin
             // if reset is active, hold down the data line
             ps2_data_reg <= 0;
         end else begin
             // if reset is not active then release the data line on the next negedge ps2_clk_in
-            ps2_data_reg <= 1;
+//            if ( ps2_clk_in == 0)
+                ps2_data_reg <= 1;
         end
+
     end
 
     assign ps2_clk_out = ~reset;            // pull down the clock for the length of the reset signal

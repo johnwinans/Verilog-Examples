@@ -1,19 +1,31 @@
 `default_nettype none
 
 module top (
+
+    output wire test1,
+    output wire test2,
+    output wire test3,
+
     input   wire        clk25,
     input   wire        s1_n,
     input   wire        s2_n,
-    input   wire        kbclk,      // we will use an SB_IO to control direction
-    input   wire        kbdata,     // we will use an SB_IO to control direction
+    inout   wire        kbclk,      // we will use an SB_IO to control direction
+    inout   wire        kbdata,     // we will use an SB_IO to control direction
     output  wire [7:0]  led
     );
+
+    wire reset_clean;
+    wire s1_sync;
 
     wire [8:0] data;        // includes the parity bit
 
     // the 'inside' signals we use for the tri-state logic
     wire        kbdata_in, kbdata_out;
     wire        kbclk_in, kbclk_out;
+
+    assign test1 = kbdata_out;
+    assign test2 = kbclk_out;
+    assign test3 = kbclk_in;
 
     // explicitly configure the PS2 IO pins (to make yosys happy)
     // See FPGA-TN-02026-3.2 (iCE40 Technology Library), page 83
@@ -35,6 +47,19 @@ module top (
         .OUTPUT_ENABLE(~kbdata_out),
         .D_OUT_0(kbdata_out),
         .D_IN_0(kbdata_in)
+    );
+
+    sync rsync (
+        .clk(clk25),
+        .in(~s1_n),
+        .out(s1_sync)
+    );
+
+    // 25MHZ/250 = 10 usec = 100KHZ
+    debounce #( .MAX_COUNT(250) ) deb (
+        .clock(clk25),
+        .in(s1_sync),
+        .out(reset_clean)
     );
 
     ps2 kbd (
