@@ -56,7 +56,7 @@ module top (
     // draw full screen white
 //    assign {red,grn,blu} = vga_vid ? {3{vga_vid}} : 0;    // all three on at same time
 
-    assign hsync = ~vga_hsync;
-    assign vsync = ~vga_vsync;
+    assign hsync = ~vga_hsync;      // Polarity of horizontal sync pulse is negative.
+    assign vsync = ~vga_vsync;      // Polarity of vertical sync pulse is negative.
 
 endmodule
