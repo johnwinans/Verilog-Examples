@@ -6,15 +6,15 @@ module top (
     output wire [7:0] led
     );
 
-    wire clk100;
+    localparam COUNTER_WIDTH = 30;
 
-    localparam CLOCK_HZ = 100000000;
-    pll_25_100 upll(.clock_in(clk25), .global_clock(clk100));
+    wire [COUNTER_WIDTH-1:0] ctr;
+    wire pll_out;
 
-    counter c (
-        .clk(clk100),
-        .reset(~reset_n),
-        .out(led)
-        );
+    pll_25_100 upll( .clock_in(clk25), .global_clock(pll_out) );
+
+    counter #( .WIDTH(COUNTER_WIDTH) ) c ( .clk(pll_out), .reset(~reset_n), .out(ctr) );
+
+    assign led = ~ctr[COUNTER_WIDTH-1:COUNTER_WIDTH-8];     // LEDs are active-low
 
 endmodule

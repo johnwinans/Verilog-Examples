@@ -7,6 +7,7 @@ include $(TOP)/Make.rules
 
 FILES= \
 	top.v \
+	counter.v\
 	pll_25_65.v \
 	pll_25_18432.v
 
