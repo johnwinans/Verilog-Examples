@@ -12,6 +12,7 @@ module top (
     wire pll_out;
 
     pll_25_100 upll( .clock_in(clk25), .global_clock(pll_out) );
+    //pll_25_40 upll( .clock_in(clk25), .global_clock(pll_out) );
 
     counter #( .WIDTH(COUNTER_WIDTH) ) c ( .clk(pll_out), .reset(~reset_n), .out(ctr) );
 

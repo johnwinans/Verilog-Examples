@@ -8,6 +8,7 @@ include $(TOP)/Make.rules
 FILES= \
 	top.v \
 	pll_25_100.v \
+	pll_25_40.v \
 	counter.v
 
 all:: top.bin
