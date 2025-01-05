@@ -22,8 +22,8 @@ The following copied from: https://github.com/YosysHQ/icestorm/issues/273
 If you want to use `ice40_PLL_PAD`, `ice40_PLL_2F_PAD` or `ice40_PLL_2_PAD` you 
 have to route external clock only to:
 
-`IOB_81_GBIN5` - pin 49
-`IOT_198_GBIN0` - pin 129
+* `IOB_81_GBIN5` - pin 49
+* `IOT_198_GBIN0` - pin 129
 
 I didn't found that information in any vendor PDF's or pinout files, just 
 figured out it experimentally.
