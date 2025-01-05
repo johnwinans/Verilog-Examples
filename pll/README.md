@@ -9,13 +9,6 @@ become enabled/disabled as clues for guidance.
 
 The pin numbers mentioned here are in reference to the TQFP package.
 
-You get what you pay for:
-
-I believe I read somewhere that when using a `PLL_CORE` with a wire from 
-pin 52 as the reference clock then pin 49 is forced to be an output only.
-(This is in contrast to the note below that suggests that pin 49 can not 
-be used when a `PLL_CORE` is used that is associated with pin 49.)
-
 
 The following copied from: https://github.com/YosysHQ/icestorm/issues/273
 
@@ -25,7 +18,7 @@ have to route external clock only to:
 * `IOB_81_GBIN5` - pin 49
 * `IOT_198_GBIN0` - pin 129
 
-I didn't found that information in any vendor PDF's or pinout files, just 
+I didn't find that information in any vendor PDF's or pinout files, just 
 figured out it experimentally.
 
 If you want to use `ice40_PLL_CORE` or `ice40_PLL_2F_CORE` you won't be able to 
