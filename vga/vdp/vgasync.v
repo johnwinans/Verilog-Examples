@@ -15,7 +15,7 @@ module vgasync #(
     parameter  HC_MAX = HVID+HFP+HS+HBP,   // one more than the max horizontal count value
     parameter  VC_MAX = VVID+VFP+VS+VBP,   // one more than the max vertical count value
     parameter  HC_BITS = $clog2(HC_MAX),   // how many bits do we need to count this high?
-    parameter  VC_BITS = $clog2(VC_MAX),   // how many bits do we need to count this high?
+    parameter  VC_BITS = $clog2(VC_MAX)    // how many bits do we need to count this high?
     ) (
     input wire clk,                     // 25mhz
     input wire reset,
