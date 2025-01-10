@@ -9,7 +9,7 @@ module vdp_table_test (
     input wire          reset,
     input wire          hsync_in,
     input wire          vsync_in,
-    input wire [10:0]   col_in,         // pixel column
+    input wire [8:0]    col_in,         // pixel column
     input wire [9:0]    row_in,         // pixel row
     input wire          active_in,      // true when video is active
 
@@ -27,8 +27,7 @@ module vdp_table_test (
     input wire [7:0]    pattern_rdata,
 
     output wire [4:0]   color_raddr,        // 32 bytes
-    input wire [7:0]    color_rdata,
-    
+    input wire [7:0]    color_rdata
     );
 
     wire [4:0] CCCCC;       // the tile column (in the "pattern plane")
@@ -55,9 +54,9 @@ module vdp_table_test (
     assign pattern_raddr = {name_rdata, rrr};
 
     // color table  (32 bytes)
-    //assign color_raddr = name_rdata[7:3];
+    assign color_raddr = name_rdata[7:3];
     //assign color_raddr = name_rdata[4:0];
-    assign color_raddr = CCCCC;
+    //assign color_raddr = CCCCC;
 
     reg [4:0] hsync_reg, hsync_next;
     reg [4:0] vsync_reg, vsync_next;

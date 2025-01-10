@@ -41,6 +41,12 @@ vgasync_tb.vvp: vgasync_tb.v vgasync.v
 plot: vgasync_tb.vcd
 	gtkwave $^
 
+vdp_table_test_tb.vvp: vdp_table_test_tb.v vdp_table_test.v vgasync.v
+	iverilog -o $@ $^
+
+plotv: vdp_table_test_tb.vcd
+	gtkwave $^
+
 prog: top.bin
 	$(FLASH_PROG) $^
 
