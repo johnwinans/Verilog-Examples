@@ -83,3 +83,4 @@ But it can generate one close enough to work on modern video monitors.
 - back porch  CCCCCcccmm >= 768+3+6 & CCCCCcccmm < 768+3+6+29
 
 - visible when RRRRR < 24 && V == 0
+

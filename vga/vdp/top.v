@@ -77,7 +77,7 @@ module top (
 	initial begin
 		$readmemh("rom_name.hex", name_mem);
 		//$readmemh("rom_pattern.hex", pattern_mem);
-		$readmemh("rom_binnacle.hex", pattern_mem);
+		$readmemh("rom_binnacle.hex", pattern_mem);     // https://damieng.com/typography/zx-origins/binnacle/
 		$readmemh("rom_color.hex", color_mem);
 	end
 	always @(posedge clk65) begin
