@@ -63,16 +63,19 @@ module vdp_table_test (
     reg [4:0] active_reg, active_next;
     reg [2:0] color_reg, color_next;
     reg [7:0] px_reg, px_next;
+    reg [7:0] ctc_reg, ctc_next;        // color table cache data
 
     always @(posedge pxclk) begin
         if (reset) begin
             color_reg <= 0;
+            ctc_reg <= 0;
             px_reg <= 0;
             active_reg <= 0;
             hsync_reg <= 0;
             vsync_reg <= 0;
         end else begin
             color_reg <= color_next;
+            ctc_reg <= ctc_next;
             px_reg <= px_next;
             active_reg <= active_next;
             hsync_reg <= hsync_next;
@@ -89,12 +92,14 @@ module vdp_table_test (
         vsync_next = {vsync_reg, vsync_in};     // shift left
         px_next = {px_reg, 1'b0};               // shift left
 
+        ctc_next = ctc_reg;
+
         if ( ccc == 3 ) begin
             px_next = pattern_rdata;            // only load px shift reg on 3rd tile clock
-//XXX need to latch the tile-color here too?
+            ctc_next = color_rdata;
         end
         if ( active_reg[3] ) begin              // if visible on next clk
-            color_next = px_reg[7] ? color_rdata[6:4] : color_rdata[2:0];   // use 3 lsbs for now
+            color_next = px_reg[7] ? ctc_reg[6:4] : ctc_reg[2:0];   // use 3 lsbs for now
 /*
             // override to see hardcode in case above is garbage
             if ( CCCCC == RRRRR ) begin

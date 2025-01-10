@@ -16,7 +16,7 @@ module top (
     wire vga_vid;
     wire vga_hsync, vdp_hsync;
     wire vga_vsync, vdp_vsync;
-    wire [$clog2(1344)-1:0] vga_col;    // big enough to hold the counter value
+    wire [$clog2(1344/4)-1:0] vga_col;    // big enough to hold the counter value
     wire [$clog2(806)-1:0] vga_row;     // big enough to hold the counter value
 
     // use a PLL to generate 65MHZ from 25MHZ
@@ -63,10 +63,11 @@ module top (
 `else
 
     wire [9:0]  name_raddr;
-    reg [7:0]  name_rdata;
     wire [10:0] pattern_raddr;
-    reg [7:0]  pattern_rdata;
     wire [4:0]  color_raddr;
+
+    reg [7:0]  name_rdata;
+    reg [7:0]  pattern_rdata;
     reg [7:0]  color_rdata;
 
 	reg [7:0] name_mem [0:767];
@@ -75,7 +76,8 @@ module top (
 
 	initial begin
 		$readmemh("rom_name.hex", name_mem);
-		$readmemh("rom_pattern.hex", pattern_mem);
+		//$readmemh("rom_pattern.hex", pattern_mem);
+		$readmemh("rom_binnacle.hex", pattern_mem);
 		$readmemh("rom_color.hex", color_mem);
 	end
 	always @(posedge clk65) begin

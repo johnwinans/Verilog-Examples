@@ -1,9 +1,8 @@
-# ICE40 VGA 1024x768 color bars example Files
+# ICE40 VGA 1280x1024 with scaled 320x192px
 
-This example uses a PLL to generate the 65MHZ clock required for
-XGA Signal 1024 x 768 @ 60 Hz timing using the parameters found
-at [tinyvga.com](http://tinyvga.com/vga-timing/1024x768@60Hz)
+Parameters can be found at [tinyvga.com](http://tinyvga.com/vga-timing/1024x768@60Hz)
 
+```
 1024 x 768 @ 60 Hz timing
 
 General timing
@@ -30,7 +29,7 @@ Front porch		3		0.062030769230769
 Sync pulse		6		0.12406153846154
 Back porch		29		0.59963076923077
 Whole frame		806		16.6656
-
+```
 
 The Makefile includes a recipie to generate a module with the 
 settings we need by using the `icepll` command.
@@ -40,55 +39,47 @@ the [2057-ICE40HX4K-TQ144-breakout](https://github.com/johnwinans/2057-ICE40HX4K
 project board, the PLL can not generate the exact frequency we want.
 But it can generate one close enough to work on modern video monitors.
 
-Note: Because the logic in `top.v` that determines the color bits is 
-combinational, the way that the Verilog choses to implement it can 
-result glitches and/or hesitations when the colors transition.
-(I can see a narrow vertical glitch on the left edge of my screen.)
-
-
-
 
 # Timing for mapping a TI 9118 VDP onto 1024x768 VGA:
 
 * VDP pixel counts:
 
-Horizontal:
+- Horizontal:
 
-32 tiles @ 8px each = 256px * 4 = 1024
-clog2(1024) = 10
+- 32 tiles @ 8px each = 256px * 4 = 1024
+- clog2(1024) = 10
 
-Vertical:
-
-24 tiles @ 8px each = 192px * 4 = 768
-clog2(768) = 10
+- Vertical:
+- 24 tiles @ 8px each = 192px * 4 = 768
+- clog2(768) = 10
 
 
 * Plan:
 
-11 bit horizontal counter:
+- 11 bit horizontal counter:
 
-V CCCCC ccc mm
+- V CCCCC ccc mm
 
-V       = 1-bit visible when zero
-CCCCC	= 5-bit tile/pattern position column number
-ccc     = 3-bit tile/pattern pixel column counter
-mm      = 2-bit magnifier (to make each VDP px into 4 VGA px)
+- V       = 1-bit visible when zero
+- CCCCC	= 5-bit tile/pattern position column number
+- ccc     = 3-bit tile/pattern pixel column counter
+- mm      = 2-bit magnifier (to make each VDP px into 4 VGA px)
 
-front porch VCCCCCcccmm >= 1024 & VCCCCCcccmm < 1024+24
-sync        VCCCCCcccmm >= 1024+24 & VCCCCCcccmm < 1024+24+136
-back porch  VCCCCCcccmm >= 1024+24+136 & VCCCCCcccmm < 1024+24+136+160
+- front porch VCCCCCcccmm >= 1024 & VCCCCCcccmm < 1024+24
+- sync        VCCCCCcccmm >= 1024+24 & VCCCCCcccmm < 1024+24+136
+- back porch  VCCCCCcccmm >= 1024+24+136 & VCCCCCcccmm < 1024+24+136+160
 
 
-10 bit vertical counter:
+- 10 bit vertical counter:
 
-RRRRR rrr mm
+- RRRRR rrr mm
 
-RRRRR   = 5-bit tile/pattern position row number
-rrr     = 3-bit tile/pattern pixel row counter
-nn      = 2-bit magnifier (to make each VDP px into 4 VGA px)
+- RRRRR   = 5-bit tile/pattern position row number
+- rrr     = 3-bit tile/pattern pixel row counter
+- nn      = 2-bit magnifier (to make each VDP px into 4 VGA px)
 
-front porch CCCCCcccmm >= 768 & CCCCCcccmm < 768+3
-sync        CCCCCcccmm >= 768+3 & CCCCCcccmm < 768+3+6
-back porch  CCCCCcccmm >= 768+3+6 & CCCCCcccmm < 768+3+6+29
+- front porch CCCCCcccmm >= 768 & CCCCCcccmm < 768+3
+- sync        CCCCCcccmm >= 768+3 & CCCCCcccmm < 768+3+6
+- back porch  CCCCCcccmm >= 768+3+6 & CCCCCcccmm < 768+3+6+29
 
-visible when RRRRR < 24 && V == 0
+- visible when RRRRR < 24 && V == 0
