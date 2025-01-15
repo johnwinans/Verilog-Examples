@@ -86,6 +86,10 @@ module vdp_table_test (
         end
     end
 
+    // XXX might be easier & use less LUTs if this used a delayed 
+    // XXX counter or hack the vgasync module to emit a counter 
+    // adjusted for displaying a visible border.
+
     always @(*) begin
         color_next = 0;             // assume black
 
@@ -103,7 +107,7 @@ module vdp_table_test (
             px_next = pattern_rdata;
             ctc_next = color_rdata;
         end
-        if ( active_reg[3] ) begin              // if visible on next clk
+        if ( active_reg[3] && col_in < 32*8*2+3 && row_in < 24*8*2 ) begin      // if visible on next clk
             color_next = px_reg[7] ? ctc_reg[6:4] : ctc_reg[2:0];   // use 3 lsbs for now
 /*
             // override to see hardcode in case above is garbage
