@@ -96,10 +96,9 @@ module vdp_table_test (
         px_next = px_reg;
         ctc_next = ctc_reg;
 
-        if ( ccc[0] == 0 )
+        if ( col_in[0] == 0 )
             px_next = {px_reg, 1'b0};           // shift left every other px clock for 2X
 
-        //if ( ccc == 3 ) begin                 // if 4X mag, load on 3
         if ( ccc == 1 ) begin                   // if 2X mag, load on 2
             px_next = pattern_rdata;
             ctc_next = color_rdata;
