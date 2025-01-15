@@ -5,11 +5,11 @@
 * Generate color & sync values using a pipeline.
 ***************************************************************************/
 module vdp_table_test (
-    input wire          pxclk,          // 65MHZ clock
+    input wire          pxclk,          // pixel clock
     input wire          reset,
     input wire          hsync_in,
     input wire          vsync_in,
-    input wire [8:0]    col_in,         // pixel column
+    input wire [9:0]    col_in,         // pixel column
     input wire [9:0]    row_in,         // pixel row
     input wire          active_in,      // true when video is active
 
@@ -93,12 +93,15 @@ module vdp_table_test (
         active_next = {active_reg, active_in};  // shift left
         hsync_next = {hsync_reg, hsync_in};     // shift left
         vsync_next = {vsync_reg, vsync_in};     // shift left
-        px_next = {px_reg, 1'b0};               // shift left
-
+        px_next = px_reg;
         ctc_next = ctc_reg;
 
-        if ( ccc == 3 ) begin
-            px_next = pattern_rdata;            // only load px shift reg on 3rd tile clock
+        if ( ccc[0] == 0 )
+            px_next = {px_reg, 1'b0};           // shift left every other px clock for 2X
+
+        //if ( ccc == 3 ) begin                 // if 4X mag, load on 3
+        if ( ccc == 1 ) begin                   // if 2X mag, load on 2
+            px_next = pattern_rdata;
             ctc_next = color_rdata;
         end
         if ( active_reg[3] ) begin              // if visible on next clk
