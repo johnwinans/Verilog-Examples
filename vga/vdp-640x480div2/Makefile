@@ -8,7 +8,6 @@ include $(TOP)/Make.rules
 FILES= \
 	top.v \
 	pll.v \
-	vdp_timing_test.v \
 	vdp_table_test.v \
 	vgasync.v
 

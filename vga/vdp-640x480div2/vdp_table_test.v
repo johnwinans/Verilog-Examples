@@ -12,6 +12,7 @@ module vdp_table_test (
     input wire [9:0]    col_in,         // pixel column
     input wire [9:0]    row_in,         // pixel row
     input wire          active_in,      // true when video is active
+    input wire          border_in,      // true when border is active
 
     output wire         hsync_out,
     output wire         vsync_out,
@@ -64,9 +65,12 @@ module vdp_table_test (
     reg [4:0] hsync_reg, hsync_next;
     reg [4:0] vsync_reg, vsync_next;
     reg [4:0] active_reg, active_next;
+    reg [4:0] border_reg, border_next;
     reg [2:0] color_reg, color_next;
     reg [7:0] px_reg, px_next;
     reg [7:0] ctc_reg, ctc_next;        // color table cache data
+
+    reg [2:0] border_color = 4;         // red
 
     always @(posedge pxclk) begin
         if (reset) begin
@@ -74,6 +78,7 @@ module vdp_table_test (
             ctc_reg <= 0;
             px_reg <= 0;
             active_reg <= 0;
+            border_reg <= 0;
             hsync_reg <= 0;
             vsync_reg <= 0;
         end else begin
@@ -81,20 +86,18 @@ module vdp_table_test (
             ctc_reg <= ctc_next;
             px_reg <= px_next;
             active_reg <= active_next;
+            border_reg <= border_next;
             hsync_reg <= hsync_next;
             vsync_reg <= vsync_next;
         end
     end
 
-    // XXX might be easier & use less LUTs if this used a delayed 
-    // XXX counter or hack the vgasync module to emit a counter 
-    // adjusted for displaying a visible border.
-
     always @(*) begin
-        color_next = 0;             // assume black
+        color_next = 0;                         // black
 
         // advance the pipeline (shifting left)
         active_next = {active_reg, active_in};  // shift left
+        border_next = {border_reg, border_in};  // shift left
         hsync_next = {hsync_reg, hsync_in};     // shift left
         vsync_next = {vsync_reg, vsync_in};     // shift left
         px_next = px_reg;
@@ -107,7 +110,7 @@ module vdp_table_test (
             px_next = pattern_rdata;
             ctc_next = color_rdata;
         end
-        if ( active_reg[3] && col_in < 32*8*2+3 && row_in < 24*8*2 ) begin      // if visible on next clk
+        if ( active_reg[2] && col_in < 32*8*2+3 && row_in < 24*8*2 ) begin      // if visible on next clk
             color_next = px_reg[7] ? ctc_reg[6:4] : ctc_reg[2:0];   // use 3 lsbs for now
 /*
             // override to see hardcode in case above is garbage
@@ -116,11 +119,14 @@ module vdp_table_test (
             end
 */
         end
+    
+        if ( border_reg[2] )
+            color_next = border_color;
     end
 
-    assign hsync_out = hsync_reg[4];
-    assign vsync_out = vsync_reg[4];
-    assign active_out = active_reg[4];
+    assign hsync_out = hsync_reg[3];
+    assign vsync_out = vsync_reg[3];
+    assign active_out = active_reg[3];
 
     assign {red,grn,blu} = color_reg;
 

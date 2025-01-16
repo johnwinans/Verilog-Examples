@@ -14,6 +14,7 @@ module top (
 
     wire pxclk;
     wire vga_vid;
+    wire vga_bdr;
     wire vga_hsync, vdp_hsync;
     wire vga_vsync, vdp_vsync;
     wire [$clog2(800)-1:0] vga_col;    // big enough to hold the counter value
@@ -22,42 +23,16 @@ module top (
     // use a PLL to generate ithe pixel clock
     pll pllpx (.clock_in(hwclk), .clock_out(pxclk));
 
-    vgasync #(
-        .HVID(640),
-        .HFP(16),
-        .HS(96),
-        .HBP(48),
-        .VVID(480),
-        .VFP(10),
-        .VS(2),
-        .VBP(33)
-    ) vga (
+    vgasync vga (
         .clk(pxclk),
         .reset(~s1_n),
         .hsync(vga_hsync),
         .vsync(vga_vsync),
         .col(vga_col),
         .row(vga_row),
-        .vid_active(vga_vid)
+        .vid_active(vga_vid),
+        .bdr_active(vga_bdr)
     );
-
-//`define TIMING_TEST 123
-`ifdef TIMING_TEST
-    vdp_timing_test vdp (
-        .pxclk(pxclk),
-        .reset(~s1_n),
-        .hsync_in(vga_hsync),
-        .vsync_in(vga_vsync),
-        .col_in(vga_col),
-        .row_in(vga_row),
-        .active_in(vga_vid),
-        .hsync_out(vdp_hsync),
-        .vsync_out(vdp_vsync),
-        .red(red),
-        .grn(grn),
-        .blu(blu),
-    );
-`else
 
     wire [9:0]  name_raddr;
     wire [10:0] pattern_raddr;
@@ -91,6 +66,7 @@ module top (
         .col_in(vga_col),
         .row_in(vga_row),
         .active_in(vga_vid),
+        .border_in(vga_bdr),
         .hsync_out(vdp_hsync),
         .vsync_out(vdp_vsync),
         .red(red),
@@ -103,8 +79,6 @@ module top (
         .color_raddr(color_raddr),
         .color_rdata(color_rdata),
     );
-
-`endif
 
     assign hsync = ~vdp_hsync;      // Polarity of horizontal sync pulse is negative.
     assign vsync = ~vdp_vsync;      // Polarity of vertical sync pulse is negative.
