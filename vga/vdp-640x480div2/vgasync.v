@@ -31,7 +31,7 @@ module vgasync #(
     output wire                 col_last,   // col == max value 
     output wire [VC_BITS-1:0]   row,        // current pixel row
     output wire                 row_last,   // col == max value 
-    output wire                 vid_active, // true when video is active (including borders)
+    output wire                 vid_active, // true when video is active (not including borders)
     output wire                 bdr_active  // true when border video is active 
     );
 
