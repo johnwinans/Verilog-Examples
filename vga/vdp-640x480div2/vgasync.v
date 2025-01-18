@@ -14,7 +14,7 @@ module vgasync #(
     parameter   VBB  = 48,      // vertical bottom border video lines
     parameter   VFP  = 10,      // vertical front porch video lines
     parameter   VS   = 2,       // vertical vsync pulse width video lines
-    parameter   VBP  = 29,      // vertical back porch video lines
+    parameter   VBP  = 33,      // vertical back porch video lines
     parameter   VTB  = 48,      // vertical top border video lines
 
     // these are not localparams because they are used in col and row
@@ -94,6 +94,7 @@ module vgasync #(
 
         vid_active_next = ( hctr_next < HVID && vctr_next < VVID ) ? 1 : 0;
 
+        //visible_next = ( hctr_next < HRB_END || hctr_next >= HLB_BEGIN ) && ( vctr_next < VBB_END || vctr_next >= VTB_BEGIN );
         visible_next = ( hctr_next < HRB_END || hctr_next >= HLB_BEGIN ) && ( vctr_next < VBB_END || vctr_next >= VTB_BEGIN );
         border_next = visible_next && !vid_active_next;
 

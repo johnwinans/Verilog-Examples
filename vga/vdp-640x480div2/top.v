@@ -18,7 +18,7 @@ module top (
     wire vga_hsync, vdp_hsync;
     wire vga_vsync, vdp_vsync;
     wire [$clog2(800)-1:0] vga_col;    // big enough to hold the counter value
-    wire [$clog2(449)-1:0] vga_row;     // big enough to hold the counter value
+    wire [$clog2(525)-1:0] vga_row;     // big enough to hold the counter value
 
     // use a PLL to generate ithe pixel clock
     pll pllpx (.clock_in(hwclk), .clock_out(pxclk));

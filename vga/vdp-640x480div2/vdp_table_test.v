@@ -70,7 +70,9 @@ module vdp_table_test (
     reg [7:0] px_reg, px_next;
     reg [7:0] ctc_reg, ctc_next;        // color table cache data
 
-    reg [2:0] border_color = 4;         // red
+    //reg [2:0] border_color = 4;         // red
+    //reg [2:0] border_color = 2;         // grn
+    reg [2:0] border_color = 1;         // blu
 
     always @(posedge pxclk) begin
         if (reset) begin

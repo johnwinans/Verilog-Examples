@@ -16,7 +16,7 @@ module tb();
         .HLB(2),
         .VVID(3),
         .VBB(2),
-        .VFP(1),
+        .VFP(4),
         .VS(2),
         .VBP(3),
         .VTB(2)
