@@ -61,6 +61,7 @@ module vgasync #(
     reg                 hsync_reg, hsync_next;
     reg                 vsync_reg, vsync_next;
     reg                 border_reg, border_next;
+    reg                 visible_next;
 
     always @ (posedge clk) 
     begin
@@ -93,7 +94,7 @@ module vgasync #(
 
         vid_active_next = ( hctr_next < HVID && vctr_next < VVID ) ? 1 : 0;
 
-        visible_next = ( hctr_next < HRB_END || hctr_next >= HLB_BEGIN ) && ( vctr_next < VBB_END || vctr_next >= VTB_START );
+        visible_next = ( hctr_next < HRB_END || hctr_next >= HLB_BEGIN ) && ( vctr_next < VBB_END || vctr_next >= VTB_BEGIN );
         border_next = visible_next && !vid_active_next;
 
         hsync_next = ( hctr_next >= HS_BEGIN && hctr_next < HS_END ) ? 1 : 0;
