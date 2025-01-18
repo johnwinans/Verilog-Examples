@@ -6,11 +6,10 @@ module tb();
     initial begin
         $dumpfile("vdp_table_test_tb.vcd");
         $dumpvars;
-        clk65 = 0;
+        pxclk = 0;
     end
     
-    //reg   hwclk;
-    reg   clk65; // run at 16.250MHZ
+    reg   pxclk;
     reg   s1_n;
     reg   s2_n;
     wire        red;
@@ -20,7 +19,7 @@ module tb();
     wire        vsync;
     wire [7:0]  led;
 
-    always #1 clk65 = ~clk65;
+    always #1 pxclk = ~pxclk;
 
     initial begin
         s1_n = 1;
@@ -30,7 +29,7 @@ module tb();
         s1_n = 1;
 
 
-        #10000;     // run lng enough to see the col counter working
+        #1000000;
         $finish;
     end
 
@@ -40,17 +39,12 @@ module tb();
     wire vga_vid;
     wire vga_hsync, vdp_hsync;
     wire vga_vsync, vdp_vsync;
-    wire [$clog2(1344/4.0)-1:0] vga_col;    // big enough to hold the counter value
-    wire [$clog2(806)-1:0] vga_row;     // big enough to hold the counter value
+    wire vga_border;
+    wire [$clog2(800)-1:0] vga_col;    // big enough to hold the counter value
+    wire [$clog2(525)-1:0] vga_row;     // big enough to hold the counter value
 
-    // use a PLL to generate 65MHZ from 25MHZ
-    //pll pll65 (.clock_in(hwclk), .clock_out(clk65));
-
-    // NOTE:    We run the sync circuit at 1/4 of the 65MHZ clock speed
-    //          as long as all of the horizontal times can be evenly divided
-    //          by 4.  THis is because we ultimately ignore the two LSBs of
-    //          the col output when running at 65MHZ in the entire design.
-    vgasync #(
+    vgasync 
+/*#(
         .HVID(1024/4),
         .HFP(24/4),
         .HS(136/4),
@@ -59,14 +53,17 @@ module tb();
         .VFP(3),
         .VS(6),
         .VBP(29)
-    ) vga (
-        .clk(clk65),
+    ) 
+*/
+        vga (
+        .clk(pxclk),
         .reset(~s1_n),
         .hsync(vga_hsync),
         .vsync(vga_vsync),
         .col(vga_col),
         .row(vga_row),
-        .vid_active(vga_vid)
+        .vid_active(vga_vid),
+        .bdr_active(vga_border)
     );
 
     wire [9:0]  name_raddr;
@@ -85,19 +82,20 @@ module tb();
 		$readmemh("rom_pattern.hex", pattern_mem);
 		$readmemh("rom_color.hex", color_mem);
 	end
-	always @(posedge clk65) begin
+	always @(posedge pxclk) begin
 		name_rdata      <= name_mem[name_raddr];
 		pattern_rdata   <= pattern_mem[pattern_raddr];
 		color_rdata     <= color_mem[color_raddr];
 	end
 
     vdp_table_test vdp (
-        .pxclk(clk65),
+        .pxclk(pxclk),
         .reset(~s1_n),
         .hsync_in(vga_hsync),
         .vsync_in(vga_vsync),
-        .col_in(vga_col),
-        .row_in(vga_row),
+        .col_in(vga_col-64),            // for border offset
+        .row_in(vga_row-48),            // for border offset
+        .border_in(vga_border),
         .active_in(vga_vid),
         .hsync_out(vdp_hsync),
         .vsync_out(vdp_vsync),

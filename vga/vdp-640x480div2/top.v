@@ -23,7 +23,10 @@ module top (
     // use a PLL to generate ithe pixel clock
     pll pllpx (.clock_in(hwclk), .clock_out(pxclk));
 
-    vgasync vga (
+    localparam HLB  = 64;      // horizontal left border here to use below
+    localparam VTB  = 48;      // vertical top border here to use below
+
+    vgasync #( .HLB(HLB), .VTB(VTB) ) vga (
         .clk(pxclk),
         .reset(~s1_n),
         .hsync(vga_hsync),
@@ -63,8 +66,8 @@ module top (
         .reset(~s1_n),
         .hsync_in(vga_hsync),
         .vsync_in(vga_vsync),
-        .col_in(vga_col),
-        .row_in(vga_row),
+        .col_in(vga_col-HLB),           // may not be most efficient way to do this :-/
+        .row_in(vga_row-VTB),
         .active_in(vga_vid),
         .border_in(vga_bdr),
         .hsync_out(vdp_hsync),

@@ -31,6 +31,7 @@ module vdp_table_test (
     input wire [7:0]    color_rdata
     );
 
+
     wire [4:0] CCCCC;       // the tile column (in the "pattern plane")
     wire [2:0] ccc;         // the character column
     wire [1:0] mm;
