@@ -1,0 +1,109 @@
+set_io -nowarn -pullup yes a[0]     23
+set_io -nowarn -pullup yes a[1]     21
+set_io -nowarn -pullup yes a[2]     19
+set_io -nowarn -pullup yes a[3]     17
+set_io -nowarn -pullup yes a[4]     15
+set_io -nowarn -pullup yes a[5]     141
+set_io -nowarn -pullup yes a[6]     138
+set_io -nowarn -pullup yes a[7]     136
+set_io -nowarn -pullup yes a[8]     134
+set_io -nowarn -pullup yes a[9]     129
+set_io -nowarn -pullup yes a[10]    135
+set_io -nowarn -pullup yes a[11]    137
+set_io -nowarn -pullup yes a[12]    139
+set_io -nowarn -pullup yes a[13]    142
+set_io -nowarn -pullup yes a[14]    144
+set_io -nowarn -pullup yes a[15]    16
+set_io -nowarn -pullup yes a[16]    18
+set_io -nowarn -pullup yes a[17]    20
+set_io -nowarn -pullup yes a[18]    22
+set_io -nowarn -pullup yes a[19]    130
+
+set_io -nowarn -pullup yes d[0]     9
+set_io -nowarn -pullup yes d[1]     7
+set_io -nowarn -pullup yes d[2]     3
+set_io -nowarn -pullup yes d[3]     1
+set_io -nowarn -pullup yes d[4]     2
+set_io -nowarn -pullup yes d[5]     4
+set_io -nowarn -pullup yes d[6]     8
+set_io -nowarn -pullup yes d[7]     10
+
+set_io -nowarn              busack_n 33
+set_io -nowarn -pullup yes  busreq_n 31
+set_io -nowarn -pullup yes  dreq1_n  49
+set_io -nowarn              e        34
+set_io -nowarn              extal    39
+set_io -nowarn              halt_n   45
+
+set_io -nowarn -pullup yes  int_n[0] 24
+set_io -nowarn -pullup yes  int_n[1] 26
+set_io -nowarn -pullup yes  int_n[2] 29
+set_io -nowarn -pullup yes  nmi_n    25
+
+set_io -nowarn -pullup yes  mreq_n   38
+set_io -nowarn -pullup yes  iorq_n   41
+set_io -nowarn -pullup yes  rd_n     44
+set_io -nowarn -pullup yes  wr_n     47
+
+set_io -nowarn              m1_n     55
+set_io -nowarn              phi      42
+set_io -nowarn              rfsh_n   43
+set_io -nowarn              st       32
+set_io -nowarn              tend1_n  48
+set_io -nowarn -pullup yes  wait_n   37
+
+set_io -nowarn              reset_n  28
+
+set_io -nowarn              we_n     143
+set_io -nowarn              oe_n     12
+set_io -nowarn              ce_n     11
+
+set_io -nowarn              hwclk    52
+
+set_io -nowarn              led[0]   118
+set_io -nowarn              led[1]   116
+set_io -nowarn              led[2]   115
+set_io -nowarn              led[3]   114
+set_io -nowarn              led[4]   113
+set_io -nowarn              led[5]   112
+set_io -nowarn              led[6]   110
+set_io -nowarn              led[7]   107
+
+set_io -nowarn -pullup yes  s1_n     102
+set_io -nowarn -pullup yes  s2_n     105
+
+
+# A bunch of pins on the bottom for test-points
+set_io -nowarn              tp[0]       56
+set_io -nowarn              tp[1]       61
+set_io -nowarn              tp[2]       63
+set_io -nowarn              tp[3]       73
+set_io -nowarn              tp[4]       75
+set_io -nowarn              tp[5]       78
+set_io -nowarn              tp[6]       80
+set_io -nowarn              tp[7]       82
+set_io -nowarn              tp[8]       84
+set_io -nowarn              tp[9]       87
+set_io -nowarn              tp[10]      90
+set_io -nowarn              tp[11]      93
+set_io -nowarn              tp[12]      95
+set_io -nowarn              tp[13]      97
+set_io -nowarn              tp[14]      99
+set_io -nowarn              tp[15]      101
+
+# built-in SD card pins
+set_io -nowarn              sd_mosi     119
+set_io -nowarn              sd_clk      124
+set_io -nowarn              sd_ssel_n   117
+
+set_io -nowarn -pullup yes  sd_miso     121
+set_io -nowarn -pullup yes  sd_det      125
+
+# VGA interface pins
+set_io -nowarn              red     120
+set_io -nowarn              grn     122
+set_io -nowarn              blu     128
+
+set_io -nowarn              hsync   104
+set_io -nowarn              vsync   106
+

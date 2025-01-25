@@ -1,0 +1,20 @@
+set_io              clk25   52
+
+set_io -pullup yes  s1_n    102
+set_io -pullup yes  s2_n    105
+
+set_io              led[0]  118
+set_io              led[1]  116
+set_io              led[2]  115
+set_io              led[3]  114
+set_io              led[4]  113
+set_io              led[5]  112
+set_io              led[6]  110
+set_io              led[7]  107
+
+set_io              red     120
+set_io              grn     122
+set_io              blu     128
+
+set_io              hsync   104
+set_io              vsync   106
