@@ -19,14 +19,13 @@
 //
 //**************************************************************************
 
-// It is assumed that in is a clean one-clk1-period tick signal.
+// It is assumed that 'in' is a clean one-clk1-period tick signal.
 // 1) Stretch in to 2^STRETCH_BITS clk1 periods.
 // 2) Sync the stretched signal to clk2 domain using a SYNC_LEN fifo.
-// 3) Generate a one-clk2-period tick on out.
+// 3) Generate a one-clk2-period tick on 'out'.
 
 module stretch_sync
     #(
-        //parameter STRETCH_BITS = 2, // 2^STRETCH_BITS clk periods to stretch to
         parameter STRETCH_BITS = 1, // 2^STRETCH_BITS clk periods to stretch to
         parameter SYNC_LEN = 2      // num of bits in sync fifo >= 2
     ) (
@@ -62,7 +61,10 @@ module stretch_sync
     reg [SYNC_LEN:0]  sync_fifo;            // note this is SYNC_LEN+1 total bits
 
     always @(posedge clk2)
-        sync_fifo <= {in_wide, sync_fifo[SYNC_LEN:1]};     // shift right, discard fifo lsb
+        if (reset)
+            sync_fifo <= 0;
+        else
+            sync_fifo <= {in_wide, sync_fifo[SYNC_LEN:1]};     // shift right, discard fifo lsb
 
     assign out = sync_fifo[1] & ~sync_fifo[0];
 
