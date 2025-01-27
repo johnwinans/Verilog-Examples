@@ -46,8 +46,8 @@ module tb ( );
 
     always #1 clk1 = ~clk1;
 
-    //always #0.7 clk2 = ~clk2;       // clk2 is running faster than clk1
-    always #1.3 clk2 = ~clk2;       // clk2 is running slower than clk1
+    always #0.7 clk2 = ~clk2;       // clk2 is running faster than clk1
+    //always #1.3 clk2 = ~clk2;       // clk2 is running slower than clk1
 
     initial begin
         reset = 1;

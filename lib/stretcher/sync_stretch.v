@@ -26,8 +26,8 @@
 
 module stretch_sync
     #(
-        parameter STRETCH_BITS = 1, // 2^STRETCH_BITS clk periods to stretch to
-        parameter SYNC_LEN = 2      // num of bits in sync fifo >= 2
+        parameter STRETCH_BITS = 1, // 2^STRETCH_BITS clk1 periods to stretch to
+        parameter SYNC_LEN = 2      // num of bits in clk2 sync fifo >= 2
     ) (
         input wire  reset,
         input wire  clk1,   // source clock
@@ -39,7 +39,7 @@ module stretch_sync
     reg [STRETCH_BITS-1:0] clk1_ctr_reg, clk1_ctr_next;
     reg in_wide;
 
-    always @(posedge clk1) begin
+    always @(negedge clk1) begin
         if (reset)
             clk1_ctr_reg <= 0;
         else
