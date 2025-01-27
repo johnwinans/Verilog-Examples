@@ -3,7 +3,7 @@ TOP=..
 SUBDIRS= \
 	sync \
 	bars \
-	bars-1024x720 \
+	bars-1024x768 \
 	bars-720x400
 
 DOESNT_WORK= \
