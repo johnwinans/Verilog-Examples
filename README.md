@@ -46,10 +46,12 @@ cd ..
 
 git clone https://github.com/YosysHQ/nextpnr
 cd nextpnr
-    cmake . -DARCH=ice40
-    make -j$(nproc)
+    git submodule update --init --recursive
+    mkdir -p build && cd build
+    cmake .. -DARCH=ice40
+    make
     sudo make install
-cd ..
+cd ../..
 
 git clone https://github.com/YosysHQ/yosys.git
 cd yosys
