@@ -6,3 +6,5 @@ at least 150% faster.
 
 Keep in mind that synchronizer solutions pretty much always have to 
 be tuned for each application!
+
+[This code is discussed on YouTube here.](https://youtu.be/-040qY1DETM)
