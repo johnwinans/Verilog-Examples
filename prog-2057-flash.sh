@@ -5,17 +5,21 @@
 # sudo ./prog-flash.sh myfile.bin
 
 
-# The 2057-ICE40HX4K-TQ144-breakout Rev 3.0 is connected to the PI like this:
+# The 2057-ICE40HX4K-TQ144-breakout Rev 3.0 is connected to the Pi like this:
 #
-# Signal		PI function
-# CRESET*		GPIO24
-# CDONE			GPIO23
-# FPGA_SS		GPIO12	(special case for booting)
-# FPGA_SDI		SPI_MOSI 
-# FPGA_SDO		SPI_MISO
-# FPGA_SCK		SPI_SCK
-# FPGA_CE0		SPI_CE0 (special case not used for booting)
-# FRESET		GPIO16	(used to reset the flash)
+# Pi function	Signal
+#
+# GPIO23		CDONE
+# GPIO24		CRESET*
+# SPI_MOSI		FPGA_SDI
+# SPI_MISO		FPGA_SDO
+# SPI_SCK		FPGA_SCK
+# GPIO12		FPGA_SS		(special case for booting)
+# SPI_CE0		FPGA_CE0	(special case not used for booting)
+# GPIO16		FRESET		(used to reset the flash)
+#
+# NOTE: The sysfs GPIO access system has been depreciated for Raspberry Pi OS Bookworm
+#       so using the recommended gpiod system here.
 
 CRESET=24
 CDONE=23
@@ -24,102 +28,70 @@ FRESET=16
 
 SPI_DEV=/dev/spidev0.0
 
-
 ######################################
+
 echo ""
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 FPGA-bin-file "
-    exit 1
+	echo "Usage: $0 FPGA-bin-file"
+	exit 1
 fi
 
 if [ $EUID -ne 0 ]; then
-    echo "This script must be run as root" 1>&2
-    exit 1
-fi
-
-######################################
-
-if [ ! -d /sys/class/gpio/gpio${SSEL} ]; then
-    echo "GPIO ${SSEL} not exported, trying to export..."
-    echo ${SSEL} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${SSEL} ]; then
-	echo "ERROR: directory /sys/class/gpio/gpio${SSEL} does not exist"
+	echo "This script must be run as root" 1>&2
 	exit 1
-    fi
-else
-    echo "OK: GPIO ${SSEL} exported"
-fi
-
-######################################
-if [ ! -d /sys/class/gpio/gpio${CRESET} ]; then
-    echo "GPIO ${CRESET} not exported, trying to export..."
-    echo ${CRESET} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${CRESET} ]; then
-    echo "ERROR: directory /sys/class/gpio/gpio${CRESET} does not exist"
-    exit 1
-    fi
-else
-    echo "OK: GPIO ${CRESET} exported"
-fi
-
-######################################
-if [ ! -d /sys/class/gpio/gpio${FRESET} ]; then
-    echo "GPIO ${FRESET} not exported, trying to export..."
-    echo ${FRESET} > /sys/class/gpio/export
-    if [ ! -d /sys/class/gpio/gpio${FRESET} ]; then
-    echo "ERROR: directory /sys/class/gpio/gpio${FRESET} does not exist"
-    exit 1
-    fi
-else
-    echo "OK: GPIO ${FRESET} exported"
 fi
 
 ######################################
 
-echo ""
+dpkg -s gpiod &> /dev/null
+if [ $? -ne 0 ]; then
+	echo "gpiod package required"
+	echo "Use: sudo apt install gpiod -y"
+	exit 1
+fi
+
+######################################
+
 if [ -e ${SPI_DEV} ]; then
-    echo "OK: SPI driver loaded"
+echo "OK: SPI driver loaded"
 else
-    echo "spidev does not exist"
-    
-    #lsmod | grep spi_bcm2708 >& /dev/null
-    lsmod | grep spi_bcm2835 >& /dev/null
+	echo "spidev does not exist"
 
-    if [ $? -ne 0 ]; then
-	echo "SPI driver not loaded, try to load it..."
-	modprobe spi_bcm2835
+	lsmod | grep spi_bcm2835 >& /dev/null
+	
+	if [ $? -ne 0 ]; then
+		echo "SPI driver not loaded, try to load it..."
+		modprobe spi_bcm2835
 
-	if [ $? -eq 0 ]; then
-	    echo "OK: SPI driver loaded"
-	else
-	    echo "Could not load SPI driver"
-	    exit 1
-	fi  
-    fi
+		if [ $? -eq 0 ]; then
+			echo "OK: SPI driver loaded"
+		else
+			echo "Could not load SPI driver"
+		exit 1
+		fi
+	fi
+fi
+
+GPIO_CHIP=$(gpiofind GPIO${SSEL} | cut -d ' ' -f1)
+if [ -z $GPIO_CHIP ]; then
+	echo "Cannot find GPIO${SSEL} interface"
+	exit 1
+else
+	echo "OK: ${GPIO_CHIP} found"
 fi
 
 ######################################
 #
 # Float the SSEL pin at this point so that it won't mess 
 # with the FPGA's ability to boot from flash!
-
-echo "changing SSEL to an input so is not driven by the PI"
-echo in > /sys/class/gpio/gpio${SSEL}/direction
-cat /sys/class/gpio/gpio${SSEL}/direction
-
-
+echo ""
+echo "Changing SSEL to an input so is not driven by the Pi"
+gpioget ${GPIO_CHIP} ${SSEL} >& /dev/null
 
 ######################################
 # set the CRESET to low
-
-echo ""
-echo "Changing direction to out"
-echo out > /sys/class/gpio/gpio${CRESET}/direction
-cat /sys/class/gpio/gpio${CRESET}/direction
-
-echo "Resetting the FPGA (should be 0)"
-echo 0 > /sys/class/gpio/gpio${CRESET}/value
-cat /sys/class/gpio/gpio${CRESET}/value
+echo "Resetting the FPGA"
+gpioset ${GPIO_CHIP} ${CRESET}=0
 sleep 1
 
 # Note that we KEEP the reset asserted here so the 
@@ -128,42 +100,35 @@ sleep 1
 
 ######################################
 # Cycle FRESET low and back hi to reset the FLASH
-echo ""
-echo "Changing FRESET direction to out"
-echo out > /sys/class/gpio/gpio${FRESET}/direction
-cat /sys/class/gpio/gpio${FRESET}/direction
-
-echo "Resetting the FLASH (should be 0)"
-echo 0 > /sys/class/gpio/gpio${FRESET}/value
-cat /sys/class/gpio/gpio${FRESET}/value
+echo "Resetting the FLASH"
+gpioset ${GPIO_CHIP} ${FRESET}=0
 sleep 1
-echo "Floating the FRESET so it is not driven by the PI"
-echo in > /sys/class/gpio/gpio${FRESET}/direction
-cat /sys/class/gpio/gpio${FRESET}/direction
 
+echo "Floating the FRESET so it is not driven by the Pi"
+gpioget ${GPIO_CHIP} ${FRESET} >& /dev/null
 
 ######################################
-# program the FLASH
-# 
+# Program the FLASH
+#
 # AT45DB081 1081344 (264-byte page mode)
 # AT45DB081 1048576 (256-byte page mode)
-
+# AT45DB161D 2162688 (528-byte page mode)
+# AT45DB161D 2097152 (512-byte page mode)
+echo ""
 TMPBIN=$$.bin
 #dd if=/dev/zero bs=1081344 count=1 of=${TMPBIN}
 dd if=/dev/zero bs=1048576 count=1 of=${TMPBIN}
+#dd if=/dev/zero bs=2162688 count=1 of=${TMPBIN}
+#dd if=/dev/zero bs=2097152 count=1 of=${TMPBIN}
 dd if=$1 of=${TMPBIN} conv=notrunc
 flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=8000 --write ${TMPBIN}
 rm -f ${TMPBIN}
 
-
-
 ######################################
 
-echo "Releasing CRESET... (should be 1)"
-echo 1 > /sys/class/gpio/gpio${CRESET}/value
-cat /sys/class/gpio/gpio${CRESET}/value
+echo ""
+echo "Releasing CRESET..."
+gpioset ${GPIO_CHIP} ${CRESET}=1
 
-
-echo "Floating the CRESET so it is not driven by the PI"
-echo in > /sys/class/gpio/gpio${CRESET}/direction
-cat /sys/class/gpio/gpio${CRESET}/direction
+echo "Floating the CRESET so it is not driven by the Pi"
+gpioget ${GPIO_CHIP} ${CRESET} >& /dev/null
