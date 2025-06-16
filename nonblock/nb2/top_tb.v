@@ -6,6 +6,8 @@ module tb();
     reg [7:0]   a;
     reg [7:0]   b;
 
+    wire [7:0]  sum;
+
     initial begin
         $dumpfile("top_tb.vcd");
         $dumpvars;
@@ -30,7 +32,6 @@ module tb();
     // The assignment below gets scheduled in the active queue as a result
     // of the nonblocking assignmnet into b.
 
-    wire [7:0] sum;
     assign sum = b+1;
 
 endmodule
