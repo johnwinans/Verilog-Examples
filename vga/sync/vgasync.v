@@ -9,7 +9,7 @@ module vgasync #(
     parameter   VVID = 480,     // vertical active video lines
     parameter   VFP  = 10,      // vertical front porch video lines
     parameter   VS   = 2,       // vertical vsync pulse width video lines
-    parameter   VBP  = 29       // vertical back porch video lines
+    parameter   VBP  = 33       // vertical back porch video lines
     ) (
     input wire clk,             // 25mhz
     input wire reset,

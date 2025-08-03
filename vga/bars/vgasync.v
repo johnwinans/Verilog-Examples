@@ -9,7 +9,7 @@ module vgasync #(
     parameter   VVID = 480,     // vertical active video lines
     parameter   VFP  = 10,      // vertical front porch video lines
     parameter   VS   = 2,       // vertical vsync pulse width video lines
-    parameter   VBP  = 29,      // vertical back porch video lines
+    parameter   VBP  = 33,      // vertical back porch video lines
 
     // these are not localparams because they are used in col and row
     parameter  HC_MAX = HVID+HFP+HS+HBP,   // one more than the max horizontal count value
