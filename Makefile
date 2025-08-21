@@ -8,6 +8,11 @@ SUBDIRS= \
 	types \
 	always \
 	vga \
+	case \
+	equality \
+	modules \
+	nonblock \
+	fsm \
 	sb_io
 
 include $(TOP)/Make.rules
