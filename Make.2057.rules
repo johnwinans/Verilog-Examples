@@ -1,8 +1,6 @@
 # rules that are specific to the 2057-ICE40HX4K-TQ144-breakout board
-# for arachne, set DEVICE = 8k
 # for nextpnr, set DEVICE = hx8k
 
-#DEVICE		= 8k
 DEVICE		= hx8k
 PACKAGE		= tq144:4k
 FLASH_PROG	= sudo $(TOP)/prog-2057-flash.sh

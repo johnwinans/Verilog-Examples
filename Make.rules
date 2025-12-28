@@ -63,7 +63,6 @@ $(DOXY_DIRS):
 
 COMPILE.v	?= yosys
 NEXTPNR 	?= nextpnr-ice40
-ARACHNE		?= arachne-pnr
 
 
 DEVICE		?= up5k
@@ -76,21 +75,12 @@ PINMAP		?= pinmap-upduino.pcf
 ###################################################################
 
 # useful for single-file builds
-%.blif : %.v
-	$(COMPILE.v) -p "synth_ice40 -top top -blif $@" $<
-
-# useful for single-file builds
 %.json : %.v
 	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $<
-
 
 # Use nextpnr-ice40 to build from a JSON file
 %.asc : %.json
 	$(NEXTPNR) --$(DEVICE) --package $(PACKAGE) --pcf $(PINMAP) --asc $@ --json $<
-
-# Use arachne-pnr to build from a BLIF file 
-%.asc : %.blif
-	$(ARACHNE) -d $(DEVICE) --package $(PACKAGE) -p $(PINMAP) -o $@ $< 
 
 
 # make a binary config file from an ASC file
@@ -102,6 +92,6 @@ PINMAP		?= pinmap-upduino.pcf
 	vvp $<
 
 clean::
-	rm -f *.bin *.vvp *.vcd *.asc *.blif *.json
+	rm -f *.bin *.vvp *.vcd *.asc *.json
 
 world:: clean all
