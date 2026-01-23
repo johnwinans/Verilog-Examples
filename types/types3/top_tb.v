@@ -5,7 +5,7 @@
 module tb();
 
     reg a [3:0];        // one array of 4 bits
-    reg b [3:0][3:0];   // 4 arrays of 4 bits
+    reg b [7:0][3:0];   // 4 arrays of 7 bits
 
     integer i;          // this is used in the for loops below
 
@@ -44,7 +44,9 @@ module tb();
         $display();
 
         b[1][2] = 1;
-        for (i=0; i<4; i=i+1) $display(b[i][0], b[i][1], b[i][2], b[i][3]);
+        b[6][0] = 1;
+        b[7][3] = 1;
+        for (i=0; i<8; i=i+1) $display(b[i][0], b[i][1], b[i][2], b[i][3]);
         $display();
 
         #30;

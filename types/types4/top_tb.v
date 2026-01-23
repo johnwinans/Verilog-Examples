@@ -4,7 +4,9 @@
 
 module tb();
 
-    reg [3:0] aa [3:0];
+    reg [3:0] aa [7:0];     // an array of 8, 4-bit vectors
+
+    integer i;
 
     initial begin
         $dumpfile("top_tb.vcd");
@@ -32,6 +34,11 @@ module tb();
         aa[2][1] = 1;
         aa[2][3] = 0;
         $display(aa[0], aa[1], aa[2], aa[3]);
+
+        $display();
+        aa[7] = 4'he;           // E = 14 in decimal
+        aa[5] = 0;
+        for (i=0; i<8; i=i+1) $display(aa[i]);
 
         #30;
         $finish;
