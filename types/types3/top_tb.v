@@ -5,7 +5,7 @@
 module tb();
 
     reg a [3:0];        // one array of 4 bits
-    reg b [7:0][3:0];   // 4 arrays of 7 bits
+    reg b [7:0][3:0];   // a 4-element array of, 7-element arrays of bits
 
     integer i;          // this is used in the for loops below
 
