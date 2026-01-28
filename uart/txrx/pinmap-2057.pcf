@@ -1,0 +1,16 @@
+set_io -nowarn              clk25   52
+
+set_io -nowarn -pullup yes  s1_n    102
+set_io -nowarn -pullup yes  s2_n    105
+
+set_io -nowarn              led[0]  118
+set_io -nowarn              led[1]  116
+set_io -nowarn              led[2]  115
+set_io -nowarn              led[3]  114
+set_io -nowarn              led[4]  113
+set_io -nowarn              led[5]  112
+set_io -nowarn              led[6]  110
+set_io -nowarn              led[7]  107
+
+set_io -nowarn              tx     	56
+set_io -nowarn              rx     	61

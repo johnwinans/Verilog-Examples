@@ -1,0 +1,146 @@
+/*
+*    Copyright (C) 2024,2025  John Winans
+*
+*    This library is free software; you can redistribute it and/or
+*    modify it under the terms of the GNU Lesser General Public
+*    License as published by the Free Software Foundation; either
+*    version 2.1 of the License, or (at your option) any later version.
+*
+*    This library is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*    Lesser General Public License for more details.
+*
+*    You should have received a copy of the GNU Lesser General Public
+*    License along with this library; if not, write to the Free Software
+*    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+*    USA
+*/
+
+`timescale 1ns/1ns
+
+`default_nettype none
+
+module tb ();
+
+    localparam clk_period = (1.0/25000000)*1000000000; // clk is running at 25MHZ
+    
+    reg         clk             = 0;
+    reg         brg_clk         = 0;
+    reg         reset           = 1;
+    reg         brg_tick_reg    = 0;
+    reg [15:0]  tx_clk_reg      = 0;
+    reg [7:0]   d_reg           = 0;
+
+    reg         d_tick          = 0;            // tick to send a byte
+    wire        tx_done_tick;                   // tick by UART when a byte completes
+    wire        tx_empty;                       // level from UART when TX is ready
+    wire        tx;                             // UART serial data output
+
+    always #(clk_period/2) clk = ~clk;
+
+    // divide the system clock by 2604 for a BRG close enough to 9600
+    always @( posedge clk ) begin
+        if ( tx_clk_reg == 2604 ) begin
+            tx_clk_reg <= 0;
+            brg_tick_reg <= 1;
+        end else begin
+            tx_clk_reg <= tx_clk_reg+1;
+            brg_tick_reg <= 0;
+        end
+    end
+
+    uart_tx uut (
+        .clk(clk),
+        .reset(reset),
+        .brg_tick(brg_tick_reg),
+        .d_tick(d_tick),
+        .tx_done_tick(tx_done_tick),
+        .tx_empty(tx_empty),
+        .tx(tx),
+        .d(d_reg)
+    );
+
+    integer i;
+
+    initial begin
+        $dumpfile( { `__FILE__, "cd" } );
+        $dumpvars;
+
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        reset <= 0;
+
+        // wait a few bit periods...
+//        for ( i = 0; i<20; i = i + 1)
+//            @(posedge brg_tick_reg);
+//        @(posedge clk);
+
+        @(posedge tx_empty);        // note that reset will force tx_empty low for a while
+
+        d_reg <= 0;         // send a null
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
+
+        @(posedge tx_empty);
+//        @(posedge tx_done_tick);
+
+        d_reg <= 'h81;       // msb & lsb = 1
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
+        
+        @(posedge tx_done_tick);
+
+
+
+
+        // check if assert d_tick at the same time as brg_tick
+        //wait ( tx_clk_reg == 2604 );
+        @( posedge brg_tick_reg );
+        d_reg <= 'hf0;
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
+
+
+        // special case hack to assert d_tick with brg_tick during a stop bit
+        @(posedge tx_done_tick);
+        wait ( uut.ctr_next == 9 );
+        d_reg <= 'h55;
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
+
+
+        @(posedge tx_done_tick);
+
+        // idle the line for a while 
+        @(posedge brg_tick_reg);
+        @(posedge brg_tick_reg);
+
+        // get away from any brg_tick edges..
+        wait( tx_clk_reg == 1000 );
+
+        d_reg <= 'haa;
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
+
+
+        @(posedge tx_done_tick);
+        @(posedge brg_tick_reg);
+        @(posedge brg_tick_reg);
+        @(posedge brg_tick_reg);
+        @(posedge brg_tick_reg);
+        $finish;
+    end
+
+    initial begin
+        #10000000;     // force to end no matter what
+        $finish;
+    end
+
+endmodule
