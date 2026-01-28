@@ -13,6 +13,7 @@ SUBDIRS= \
 	modules \
 	nonblock \
 	fsm \
+	uart \
 	sb_io
 
 include $(TOP)/Make.rules
