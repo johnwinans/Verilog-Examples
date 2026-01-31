@@ -39,24 +39,20 @@ module timer (
     // Even if reset is never asserted, in a real circuit, counter and Q
     // will always have *some* initial value.
     // But, in simulation, if no reset then counter will always be unknown.
-    reg [$clog2(`CLK_HZ/2):0] counter = 0;
+    reg [$clog2((`CLK_HZ/2)-1):0] counter = 0;
 
     // Note that reset only works if clk is running. 
     // This is what is called a synchonous reset.
     always @(posedge clk)       
     begin
-        if (reset) 
-        begin
+        if (reset) begin
             counter <= 0;
             Q <= 0;
-        end
-        else if ( counter >= (`CLK_HZ/2)-1 )
-        //else if ( counter >= (100/2)-1 )        // sloooow for simulation
-        begin
+        end else if ( counter >= (`CLK_HZ/2)-1 ) begin
+        //end else if ( counter >= (100/2)-1 ) begin        // sloooow for simulation
             counter <= 0;
             Q <= ~Q;
-        end
-        else
+        end else
             counter <= counter + 1;
     end
 
