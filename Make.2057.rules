@@ -5,3 +5,5 @@ DEVICE		= hx8k
 PACKAGE		= tq144:4k
 FLASH_PROG	= sudo $(TOP)/prog-2057-flash.sh
 PINMAP		= pinmap-2057.pcf
+
+FLAGS.v  	= -DTB_2057 -DCLK_HZ=25000000

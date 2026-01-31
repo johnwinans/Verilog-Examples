@@ -5,3 +5,5 @@ DEVICE		= hx1k
 PACKAGE		= tq144
 FLASH_PROG	= iceprog -d i:0x0403:0x6010:0 
 PINMAP		= pinmap-icestick.pcf
+
+FLAGS.v  	= -DTB_ICESTICK -DCLK_HZ=12000000

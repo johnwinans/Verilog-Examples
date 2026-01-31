@@ -57,18 +57,18 @@ $(DOXY_DIRS):
 
 
 ###################################################################
-# The defaults below are for 2057-ICE40HX4K-TQ144-breakout
+# The defaults below are for the upduino board.
 # See: https://www.gnu.org/software/make/manual/html_node/Setting.html
 ###################################################################
 
 COMPILE.v	?= yosys
 NEXTPNR 	?= nextpnr-ice40
 
-
 DEVICE		?= up5k
 PACKAGE		?= sg48
 FLASH_PROG	?= sudo iceprog -d i:0x0403:0x6014
 PINMAP		?= pinmap-upduino.pcf
+FLAGS.v		?=
 
 ###################################################################
 # Rules that know how to build and simulate Verilog apps 
@@ -76,7 +76,7 @@ PINMAP		?= pinmap-upduino.pcf
 
 # useful for single-file builds
 %.json : %.v
-	$(COMPILE.v) -p "synth_ice40 -top top -json $@" $<
+	$(COMPILE.v) $(FLAGS.v) -p "synth_ice40 -top top -json $@" $<
 
 # Use nextpnr-ice40 to build from a JSON file
 %.asc : %.json

@@ -1,0 +1,11 @@
+set_io clk 21		# 12MHZ
+
+set_io led[0] 95	# Green LED
+set_io led[1] 99	# Red LED
+set_io led[2] 98	# Red LED
+set_io led[3] 44	# J3.10
+set_io led[4] 45	# J3.9
+set_io led[5] 97	# Red LED
+set_io led[6] 96	# Red LED
+set_io led[7] 47	# J3.8
+set_io led[8] 48	# J3.7

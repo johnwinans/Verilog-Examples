@@ -1,6 +1,8 @@
-# rules that are specific to the IceStick board
+# rules that are specific to the upduino board
 
 DEVICE		= up5k
 PACKAGE		= sg48
 FLASH_PROG	= sudo iceprog -d i:0x0403:0x6014
 PINMAP		= pinmap-upduino.pcf
+
+FLAGS.v		= -DTB_UPDUINO -DCLK_HZ=12000000

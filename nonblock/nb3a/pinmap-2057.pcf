@@ -1,0 +1,11 @@
+set_io clk 52		# 25MHZ
+
+set_io led[0] 118	# LED
+set_io led[1] 116	# LED
+set_io led[2] 115	# LED
+set_io led[3] 114	# LED
+set_io led[4] 113	# LED
+set_io led[5] 112	# LED
+set_io led[6] 110	# LED
+set_io led[7] 117	# LED
+set_io led[8] 98	# J1
