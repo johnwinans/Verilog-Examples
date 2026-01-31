@@ -33,6 +33,11 @@ uart_tx_tb.vvp: uart_tx_tb.v uart_tx.v
 uart_tx: uart_tx_tb.vcd
 	gtkwave $^
 
+uart_rx_tb.vvp: uart_rx_tb.v uart_rx.v
+	iverilog -o $@ $^
+uart_rx: uart_rx_tb.vcd
+	gtkwave $^
+
 
 prog: top.bin
 	$(FLASH_PROG) $^
