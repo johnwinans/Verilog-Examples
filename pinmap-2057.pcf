@@ -1,0 +1,165 @@
+# A generic pin config file for an ICE40HX breakout board:
+# https://github.com/johnwinans/2057-ICE40HX4K-TQ144-breakout
+
+set_io -nowarn              clk25   52
+
+# pins with connections on the 2057 board
+
+set_io -nowarn -pullup yes  s1_n    102
+set_io -nowarn -pullup yes  s2_n    105
+
+set_io -nowarn              led[0]  118
+set_io -nowarn              led[1]  116
+set_io -nowarn              led[2]  115
+set_io -nowarn              led[3]  114
+set_io -nowarn              led[4]  113
+set_io -nowarn              led[5]  112
+set_io -nowarn              led[6]  110
+set_io -nowarn              led[7]  107
+
+# FLASH ROM pins
+
+set_io -nowarn				flash_ss	71
+set_io -nowarn				flash_sck	70
+set_io -nowarn				flash_sdi	68
+set_io -nowarn				flash_sdo	67
+
+# SD card pins
+
+set_io -nowarn -pullup yes	sd_ssel		117
+set_io -nowarn -pullup yes	sd_mosi		119
+set_io -nowarn -pullup yes	sd_clk		124
+set_io -nowarn -pullup yes	sd_miso		121
+set_io -nowarn -pullup yes	sd_det		125
+
+
+# It is unclear how to best define the many undedicated
+# GPIO pins on the 2057 board since they must be bound 
+# to actual pin numbers in a non-contiguous range.
+
+set_io -nowarn              pin_1
+set_io -nowarn              pin_2
+set_io -nowarn              pin_3
+set_io -nowarn              pin_4
+
+set_io -nowarn              pin_7
+set_io -nowarn              pin_8
+set_io -nowarn              pin_9
+set_io -nowarn              pin_10
+set_io -nowarn              pin_11
+set_io -nowarn              pin_12
+
+set_io -nowarn              pin_15
+set_io -nowarn              pin_16
+set_io -nowarn              pin_17
+set_io -nowarn              pin_18
+set_io -nowarn              pin_19
+set_io -nowarn              pin_20
+set_io -nowarn              pin_21
+set_io -nowarn              pin_22
+set_io -nowarn              pin_23
+set_io -nowarn              pin_24
+set_io -nowarn              pin_25
+set_io -nowarn              pin_26
+
+set_io -nowarn              pin_28
+set_io -nowarn              pin_29
+
+set_io -nowarn              pin_31
+set_io -nowarn              pin_32
+set_io -nowarn              pin_33
+set_io -nowarn              pin_34
+
+set_io -nowarn				pin_37
+set_io -nowarn				pin_38
+set_io -nowarn				pin_39
+
+set_io -nowarn				pin_40
+set_io -nowarn				pin_42
+set_io -nowarn				pin_43
+set_io -nowarn				pin_44
+set_io -nowarn				pin_45
+
+set_io -nowarn				pin_47
+set_io -nowarn				pin_48
+set_io -nowarn				pin_49
+
+set_io -nowarn				pin_52
+
+set_io -nowarn				pin_55
+set_io -nowarn				pin_56
+
+set_io -nowarn				pin_60
+set_io -nowarn				pin_61
+set_io -nowarn				pin_62
+set_io -nowarn				pin_63
+set_io -nowarn				pin_64
+
+set_io -nowarn				pin_73
+set_io -nowarn				pin_74
+set_io -nowarn				pin_75
+set_io -nowarn				pin_76
+
+set_io -nowarn				pin_78
+
+set_io -nowarn				pin_80
+set_io -nowarn				pin_81
+set_io -nowarn				pin_82
+set_io -nowarn				pin_83
+set_io -nowarn				pin_84
+set_io -nowarn				pin_85
+
+set_io -nowarn				pin_87
+set_io -nowarn				pin_88
+
+set_io -nowarn				pin_90
+set_io -nowarn				pin_91
+
+set_io -nowarn				pin_93
+set_io -nowarn				pin_94
+set_io -nowarn				pin_95
+set_io -nowarn				pin_96
+set_io -nowarn				pin_97
+set_io -nowarn				pin_98
+set_io -nowarn				pin_99
+
+set_io -nowarn				pin_101
+set_io -nowarn				pin_102
+
+set_io -nowarn				pin_104
+set_io -nowarn				pin_105
+set_io -nowarn				pin_106
+set_io -nowarn				pin_107
+
+set_io -nowarn				pin_110
+
+set_io -nowarn				pin_112
+set_io -nowarn				pin_113
+set_io -nowarn				pin_114
+set_io -nowarn				pin_115
+set_io -nowarn				pin_116
+set_io -nowarn				pin_117
+set_io -nowarn				pin_118
+set_io -nowarn				pin_119
+set_io -nowarn				pin_120
+set_io -nowarn				pin_121
+set_io -nowarn				pin_122
+
+set_io -nowarn				pin_124
+set_io -nowarn				pin_125
+
+set_io -nowarn				pin_128
+set_io -nowarn				pin_129
+set_io -nowarn				pin_130
+
+set_io -nowarn				pin_134
+set_io -nowarn				pin_135
+set_io -nowarn				pin_136
+set_io -nowarn				pin_137
+set_io -nowarn				pin_138
+set_io -nowarn				pin_139
+
+set_io -nowarn				pin_141
+set_io -nowarn				pin_142
+set_io -nowarn				pin_143
+set_io -nowarn				pin_144
