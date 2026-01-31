@@ -24,7 +24,7 @@
 module uart_tx(
     input wire          clk,
     input wire          reset,
-    input wire          brg_tick,                   // bit-rate clock tick
+    input wire          brg16_tick,                 // 16X bit-rate clock tick
     input wire          d_tick,                     // start transmiting a new byte
     input wire [7:0]    d,                          // TX data (valid during d_tick)
     output wire         tx_done_tick,               // byte-completion tick 
@@ -33,6 +33,9 @@ module uart_tx(
     );
 
     localparam  MSG_LEN = 10;                       // start + 8 data + 1 stop
+
+    reg [3:0]   brg_mod16_reg, brg_mod16_next;      // /16 brg counter
+    reg         brg_tick_reg, brg_tick_next;        // /16 brg tick signal
 
     reg [8:0]   sr_reg, sr_next;                    // the shift register (only need 8 + 1 start bit)
     reg [$clog2(MSG_LEN)-1:0]   ctr_reg, ctr_next;  // bit counter (for tx_done_tick)
@@ -47,12 +50,27 @@ module uart_tx(
             start_reg <= 0;
             tx_done_reg <= 0;
             tx_empty_reg <= 0;
+            brg_mod16_reg <= 0;
+            brg_tick_reg <= 0;
         end else begin
             sr_reg <= sr_next;
             ctr_reg <= ctr_next;
             start_reg <= start_next;
             tx_done_reg <= tx_done_next;
             tx_empty_reg <= tx_empty_next;
+            brg_mod16_reg <= brg_mod16_next;
+            brg_tick_reg <= brg_tick_next;
+        end
+    end
+
+    // bit rate clock generator
+    always @( * ) begin
+        // This logic will make brg_mod16_reg and brg_tick an implied latch
+        brg_tick_next = 0;
+        brg_mod16_next = brg_mod16_reg;
+        if ( brg16_tick ) begin
+            brg_mod16_next = brg_mod16_reg + 1;
+            brg_tick_next = brg_mod16_reg == 0;         // set brg_tick_next once per 16 counts
         end
     end
 
@@ -67,10 +85,10 @@ module uart_tx(
         tx_empty_next = tx_empty_reg;
 
         // Note that it is illegal to set d_tick before tx_done_tick
-        // and tx_done_tick can not coinside with brg_tick
+        // and tx_done_tick can not coinside with brg_tick_reg
         if ( d_tick ) begin
             tx_empty_next = 0;
-            if ( brg_tick ) begin
+            if ( brg_tick_reg ) begin
                 sr_next = { sr_reg[8:1], 1'b0 };
                 ctr_next = 0;
             end else begin
@@ -78,10 +96,10 @@ module uart_tx(
 
                 // The following is subtle, we don't zero the start bit yet for TWO reasons:
                 // 1) d_tick can arrive during a stop bit (don't zero the tx output just yet!) 
-                // 2) we need to begin the start bit on the next brg_tick for it to have the right period
+                // 2) we need to begin the start bit on the next brg_tick_reg for it to have the right period
                 sr_next = { d, 1'b1 };                      // the LSB here will be output on next clk!
             end
-        end else if ( brg_tick ) begin
+        end else if ( brg_tick_reg ) begin
             if ( start_reg ) begin
                 sr_next[0] = 1'b0;                          // zero the start bit
                 ctr_next = 0;

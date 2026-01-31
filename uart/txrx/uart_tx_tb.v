@@ -23,13 +23,14 @@
 
 module tb ();
 
-    localparam clk_period = (1.0/25000000)*1000000000; // clk is running at 25MHZ
+    localparam clk_hz       = 12000000;
+    localparam clk_period   = (1.0/clk_hz)*1000000000;    // period in nsec
+    localparam brg_divisor  = clk_hz/9600;
     
     reg         clk             = 0;
-    reg         brg_clk         = 0;
     reg         reset           = 1;
     reg         brg_tick_reg    = 0;
-    reg [15:0]  tx_clk_reg      = 0;
+    reg [$clog2(brg_divisor-1):0]  tx_clk_reg      = 0;
     reg [7:0]   d_reg           = 0;
 
     reg         d_tick          = 0;            // tick to send a byte
@@ -39,9 +40,9 @@ module tb ();
 
     always #(clk_period/2) clk = ~clk;
 
-    // divide the system clock by 2604 for a BRG close enough to 9600
+    // divide the system clock for a BRG close enough to 9600 X 16
     always @( posedge clk ) begin
-        if ( tx_clk_reg == 2604 ) begin
+        if ( tx_clk_reg == brg_divisor-1 ) begin
             tx_clk_reg <= 0;
             brg_tick_reg <= 1;
         end else begin
@@ -53,7 +54,7 @@ module tb ();
     uart_tx uut (
         .clk(clk),
         .reset(reset),
-        .brg_tick(brg_tick_reg),
+        .brg16_tick(brg_tick_reg),
         .d_tick(d_tick),
         .tx_done_tick(tx_done_tick),
         .tx_empty(tx_empty),
@@ -96,10 +97,10 @@ module tb ();
 
 
 
-
         // check if assert d_tick at the same time as brg_tick
-        //wait ( tx_clk_reg == 2604 );
-        @( posedge brg_tick_reg );
+        wait ( tx_clk_reg == 0 );
+        //@( posedge brg_tick_reg );
+
         d_reg <= 'hf0;
         d_tick <= 1;
         @(posedge clk);
@@ -122,24 +123,36 @@ module tb ();
         @(posedge brg_tick_reg);
 
         // get away from any brg_tick edges..
-        wait( tx_clk_reg == 1000 );
+        wait( tx_clk_reg == brg_divisor/2 );
 
         d_reg <= 'haa;
         d_tick <= 1;
         @(posedge clk);
         d_tick <= 0;
 
+        @(posedge tx_done_tick);
+
+        // idle the line for longer than a bit period
+        for ( i = 0; i<30; i = i + 1) @(posedge brg_tick_reg);
+
+        d_reg <= 'hbb;
+        d_tick <= 1;
+        @(posedge clk);
+        d_tick <= 0;
 
         @(posedge tx_done_tick);
-        @(posedge brg_tick_reg);
-        @(posedge brg_tick_reg);
-        @(posedge brg_tick_reg);
-        @(posedge brg_tick_reg);
+
+
+
+
+        for ( i = 0; i<40; i = i + 1) @(posedge brg_tick_reg);
+
         $finish;
     end
 
     initial begin
-        #10000000;     // force to end no matter what
+        // This is useful while debugging an endless simulation.
+        #200000000;         // Force stop at 200msec no matter what.
         $finish;
     end
 

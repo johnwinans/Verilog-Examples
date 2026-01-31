@@ -1,0 +1,21 @@
+set_io -nowarn		clk		20			# 12 MHZ
+
+set_io -nowarn		led_g	39		# tri-color green
+set_io -nowarn		led_r	41		# tri-color red
+set_io -nowarn		leg_b	40		# tri-color blue
+
+set_io -nowarn		led[0]	23
+set_io -nowarn		led[1]	25
+set_io -nowarn		led[2]	26
+set_io -nowarn		led[3]	27
+set_io -nowarn		led[4]	32
+set_io -nowarn		led[5]	35
+set_io -nowarn		led[6]	31
+set_io -nowarn		led[7]	37
+set_io -nowarn		led[8]	34
+set_io -nowarn		led[9]	43
+
+set_io -nowarn		tx     	28		# UART TX (output) pin
+set_io -nowarn		rx     	38		# UART RX (input) pin
+
+set_io -nowarn -pullup yes s1_n	2		# active-low reset button
