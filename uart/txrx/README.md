@@ -20,10 +20,11 @@ at the begining of the stop-bit period.
 stateDiagram-v2
     [*] --> IDLE
     IDLE --> START		: rx == 0
-    START --> IDLE		: rx == 1 on 8th sample
-    START --> READING	: start data bits
-	READING --> READING	: rx first 8 bits
+    START --> IDLE		: rx == 1
+    START --> READING	: rx == 0
+	READING --> READING	: rx 8 bits
     READING --> STOP	: rx 9th bit
+	STOP --> IDLE		: rx == 1
 	STOP --> FERR		: rx == 0
 	FERR --> FERR		: rx == 0
 	FERR --> IDLE		: rx == 1
