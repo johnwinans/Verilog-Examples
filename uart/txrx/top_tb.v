@@ -17,7 +17,7 @@
 *    USA
 */
 
-`timescale 100ns/1ps
+`timescale 1ns/1ns
 `default_nettype none
 
 module tb();
@@ -25,34 +25,44 @@ module tb();
     reg clk = 0;
     reg reset = 1;
 
+    localparam clk_hz       = 6000000;
+    localparam clk_period   = (1.0/clk_hz)*1000000000;    // period in nsec
+
+    always #(clk_period/2) clk = ~clk;
+
     initial begin
         $dumpfile( { `__FILE__, "cd" } );
         $dumpvars;
     end
     
-    always #1 clk = ~clk;
-
     integer i;
 
     initial begin
-        #4;
+        #(4*clk_period);
         reset = 0;
 
         // wait for 128 characters to pass 
-        for (i=0; i<128; i=i+1) begin
+        for (i=0; i<10; i=i+1) begin
             @(posedge uut.tx_done_tick);
         end
 
         $finish;
     end
 
+    initial begin
+        #200000000;         // Force stop at 200msec no matter what.
+        $finish;
+    end
+
+
     wire    tx;
     reg     rx = 0;
 
-    top uut (
-        .clk25(clk),
+    top #(
+        .clk_hz(clk_hz)
+        ) uut (
+        .clk(clk),
         .s1_n(~reset),
-        .s2_n(~reset),
         .rx(rx),
         .tx(tx)
     );

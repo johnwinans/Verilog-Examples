@@ -23,7 +23,7 @@ timing: top.asc
 top_tb.vvp: top_tb.v $(FILES)
 	iverilog -o $@ $^
 
-plot: top_tb.vcd
+top: top_tb.vcd
 	gtkwave $^
 
 

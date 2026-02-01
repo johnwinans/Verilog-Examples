@@ -29,7 +29,7 @@ module tb ();
     
     reg         clk             = 0;
     reg         reset           = 1;
-    reg         brg_tick_reg    = 0;
+    reg         brg16_tick_reg  = 0;
     reg [$clog2(brg_divisor-1):0]  tx_clk_reg      = 0;
     reg [7:0]   d_reg           = 0;
 
@@ -44,17 +44,17 @@ module tb ();
     always @( posedge clk ) begin
         if ( tx_clk_reg == brg_divisor-1 ) begin
             tx_clk_reg <= 0;
-            brg_tick_reg <= 1;
+            brg16_tick_reg <= 1;
         end else begin
             tx_clk_reg <= tx_clk_reg+1;
-            brg_tick_reg <= 0;
+            brg16_tick_reg <= 0;
         end
     end
 
     uart_tx uut (
         .clk(clk),
         .reset(reset),
-        .brg16_tick(brg_tick_reg),
+        .brg16_tick(brg16_tick_reg),
         .d_tick(d_tick),
         .tx_done_tick(tx_done_tick),
         .tx_empty(tx_empty),
@@ -73,11 +73,6 @@ module tb ();
         @(posedge clk);
         reset <= 0;
 
-        // wait a few bit periods...
-//        for ( i = 0; i<20; i = i + 1)
-//            @(posedge brg_tick_reg);
-//        @(posedge clk);
-
         @(posedge tx_empty);        // note that reset will force tx_empty low for a while
 
         d_reg <= 0;         // send a null
@@ -95,11 +90,8 @@ module tb ();
         
         @(posedge tx_done_tick);
 
-
-
-        // check if assert d_tick at the same time as brg_tick
-        wait ( tx_clk_reg == 0 );
-        //@( posedge brg_tick_reg );
+        //wait ( tx_clk_reg == 0 );
+        //@( posedge brg16_tick_reg );
 
         d_reg <= 'hf0;
         d_tick <= 1;
@@ -108,8 +100,12 @@ module tb ();
 
 
         // special case hack to assert d_tick with brg_tick during a stop bit
-        @(posedge tx_done_tick);
+`ifdef FORCE_ERROR
+        wait ( uut.ctr_next == 8 );
         wait ( uut.ctr_next == 9 );
+`else
+        @(posedge tx_done_tick);
+`endif
         d_reg <= 'h55;
         d_tick <= 1;
         @(posedge clk);
@@ -119,8 +115,8 @@ module tb ();
         @(posedge tx_done_tick);
 
         // idle the line for a while 
-        @(posedge brg_tick_reg);
-        @(posedge brg_tick_reg);
+        @(posedge brg16_tick_reg);
+        @(posedge brg16_tick_reg);
 
         // get away from any brg_tick edges..
         wait( tx_clk_reg == brg_divisor/2 );
@@ -133,7 +129,7 @@ module tb ();
         @(posedge tx_done_tick);
 
         // idle the line for longer than a bit period
-        for ( i = 0; i<30; i = i + 1) @(posedge brg_tick_reg);
+        for ( i = 0; i<40; i = i + 1) @(posedge brg16_tick_reg);
 
         d_reg <= 'hbb;
         d_tick <= 1;
@@ -143,9 +139,7 @@ module tb ();
         @(posedge tx_done_tick);
 
 
-
-
-        for ( i = 0; i<40; i = i + 1) @(posedge brg_tick_reg);
+        for ( i = 0; i<16*9; i = i + 1) @(posedge brg16_tick_reg);
 
         $finish;
     end

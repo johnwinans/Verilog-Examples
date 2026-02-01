@@ -26,8 +26,8 @@
 `endif
 
 module top #(
-    parameter   CLK_HZ      = `CLK_HZ,
-    parameter   BIT_RATE    = 9600
+    parameter   clk_hz      = `CLK_HZ,
+    parameter   bit_rate    = 9600
     ) (
     input   wire        clk,
     input   wire        s1_n,
@@ -35,20 +35,21 @@ module top #(
     output  wire        tx
     );
 
-    localparam brg_divisor = CLK_HZ/BIT_RATE/2;     // This is for a 1X bit-rate clock
+    localparam brg_divisor = clk_hz/bit_rate/16;       // This is for a 16X bit-rate clock
 
-    wire        reset = ~s1_n;
+    wire reset = ~s1_n;
 
     wire                        tx_done_tick;
     reg                         brg_tick_reg, brg_tick_next;
-    reg [$clog2(brg_divisor):0] tx_clk_reg, tx_clk_next;
+    reg [$clog2(brg_divisor-1):0] tx_clk_reg, tx_clk_next;
     reg [7:0]                   d_reg, d_next;
+    reg                         d_tick_reg, d_tick_next;
 
     uart_tx utx (
         .clk(clk),
         .reset(reset),
-        .brg16_tick(brg_tick_reg),     // 16 ticks per bit to tx
-        .d_tick(tx_done_tick),         // write again as soon as the last bit has been sent
+        .brg16_tick(brg_tick_reg),      // 16 ticks per bit to tx
+        .d_tick(d_tick_reg),
         .tx_done_tick(tx_done_tick),
         .tx(tx),
         .d(d_reg)
@@ -60,15 +61,18 @@ module top #(
             tx_clk_reg <= 0;
             brg_tick_reg <= 0;
             d_reg <= 8'h0d;             // start by sending CR
+            d_tick_reg <= 1;            // set d_tick during reset for first character
         end else begin
             tx_clk_reg <= tx_clk_next;
             brg_tick_reg <= brg_tick_next;
             d_reg <= d_next;
+            d_tick_reg <= d_tick_next;
         end
     end
 
     always @(*) begin
         d_next          = d_reg;
+        d_tick_next     = reset||tx_done_tick;  // A cute way to get it started ;-)
 
         if ( tx_done_tick ) begin
             case ( d_reg )
@@ -85,7 +89,7 @@ module top #(
         tx_clk_next     = tx_clk_reg + 1;
 
         // reset the counter at the desired TX bit rate
-        if ( tx_clk_reg == brg_divisor ) begin     
+        if ( tx_clk_reg == brg_divisor-1 ) begin     
             tx_clk_next <= 0;
             brg_tick_next <= 1;
         end 

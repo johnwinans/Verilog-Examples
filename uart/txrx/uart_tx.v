@@ -1,5 +1,5 @@
 /*
-*    Copyright (C) 2024,2025  John Winans
+*    Copyright (C) 2024,2025,2026  John Winans
 *
 *    This library is free software; you can redistribute it and/or
 *    modify it under the terms of the GNU Lesser General Public
