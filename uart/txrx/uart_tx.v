@@ -88,23 +88,23 @@ module uart_tx(
         if ( d_tick ) begin
             tx_empty_next = 0;
             if ( brg_tick_reg ) begin
-                sr_next = { sr_reg[8:1], 1'b0 };
+                // this is an optimization to save a bit period when d_tick coincides with brg_tick_reg
+                sr_next = { d, 1'b0 };                      // load & go right away
                 ctr_next = 0;
             end else begin
-                start_next = 1;
-
                 // The following is subtle, we don't zero the start bit yet for TWO reasons:
                 // 1) d_tick can arrive during a stop bit (don't zero the tx output just yet!) 
                 // 2) we need to begin the start bit on the next brg_tick_reg for it to have the right period
                 sr_next = { d, 1'b1 };                      // the LSB here will be output on next clk!
+                start_next = 1;                             // start sending on the next brg_tick_reg
             end
         end else if ( brg_tick_reg ) begin
             if ( start_reg ) begin
                 sr_next[0] = 1'b0;                          // zero the start bit
-                ctr_next = 0;
+                ctr_next = 0;                               // reset the bit counter
             end else begin
                 sr_next = { 1'b1, sr_reg[8:1] };            // shift-in 1 bits for future stop bit(s)
-                ctr_next = ctr_reg + (ctr_reg != MSG_LEN);  // seize counter after stop bit(s)
+                ctr_next = ctr_reg + (ctr_reg != MSG_LEN);  // seize counter after sending stop bit(s)
                 tx_done_next = (ctr_reg == MSG_LEN-2);      // true as the stop bit begins
                 tx_empty_next = (ctr_reg >= MSG_LEN-2);     // true when TX is empty/ready
             end
