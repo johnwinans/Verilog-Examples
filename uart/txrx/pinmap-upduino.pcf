@@ -15,7 +15,7 @@ set_io -nowarn		led[7]	37
 set_io -nowarn		led[8]	34
 set_io -nowarn		led[9]	43
 
-set_io -nowarn		tx     	28		# UART TX (output) pin
 set_io -nowarn		rx     	38		# UART RX (input) pin
+set_io -nowarn		tx     	28		# UART TX (output) pin
 
 set_io -nowarn -pullup yes s1_n	2		# active-low reset button

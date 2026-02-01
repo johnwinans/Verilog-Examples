@@ -42,7 +42,7 @@ module tb();
         reset = 0;
 
         // wait for 128 characters to pass 
-        for (i=0; i<10; i=i+1) begin
+        for (i=0; i<128; i=i+1) begin
             @(posedge uut.tx_done_tick);
         end
 
