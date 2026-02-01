@@ -94,7 +94,7 @@ module uart_rx(
                 if ( rx == 0 ) begin
                     state_next[IDLE] = 0;
                     state_next[START] = 1;
-                    brg_ctr_next = 8;               // 1/2 bit-width
+                    brg_ctr_next = 9;               // 1/2 bit-width
                 end
             end
 
