@@ -25,7 +25,7 @@ module tb ();
 
     localparam clk_hz       = 12000000;
     localparam clk_period   = (1.0/clk_hz)*1000000000;    // period in nsec
-    localparam brg_divisor  = clk_hz/9600;
+    localparam brg_divisor  = clk_hz/9600/16;
     
     reg         clk             = 0;
     reg         reset           = 1;
