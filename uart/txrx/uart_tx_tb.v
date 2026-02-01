@@ -102,20 +102,17 @@ module tb ();
         d_tick <= 0;
 
 
-        // special case hack to assert d_tick with brg_tick during a stop bit
-`ifdef FORCE_ERROR
-        wait ( uut.ctr_next == 8 );
-        wait ( uut.ctr_next == 9 );
-`else
         @(posedge tx_done_tick);
-`endif
+        wait ( uut.brg_tick_reg );      // special case hack to assert d_tick in sync with brg_tick 
+
         d_reg <= 'h55;
         d_tick <= 1;
         @(posedge clk);
         d_tick <= 0;
 
-
         @(posedge tx_done_tick);
+
+
 
         // idle the line for a while 
         @(posedge brg16_tick_reg);
@@ -130,6 +127,8 @@ module tb ();
         d_tick <= 0;
 
         @(posedge tx_done_tick);
+
+
 
         // idle the line for longer than a bit period
         for ( i = 0; i<40; i = i + 1) @(posedge brg16_tick_reg);
