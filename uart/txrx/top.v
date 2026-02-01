@@ -55,7 +55,6 @@ module top #(
         .d(d_reg)
     );
 
-    // generate a bit rate clock 
     always @( posedge clk, posedge reset ) begin
         if ( reset ) begin
             tx_clk_reg <= 0;
@@ -70,6 +69,7 @@ module top #(
         end
     end
 
+    // An FSM that cycles through all the printable characters
     always @(*) begin
         d_next          = d_reg;
         d_tick_next     = reset||tx_done_tick;  // A cute way to get it started ;-)
@@ -84,6 +84,7 @@ module top #(
         end
     end
 
+    // generate a bit rate clock
     always @(*) begin
         brg_tick_next   = 0;
         tx_clk_next     = tx_clk_reg + 1;
