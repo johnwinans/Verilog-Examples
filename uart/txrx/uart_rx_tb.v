@@ -29,7 +29,7 @@ module tb ();
     localparam clk_period       = (1.0/clk_hz)*1000000000;          // in timescale units
     localparam brg_divisor      = clk_hz/bit_rate/16;               // 16X bit-rate clk divisor
     localparam bit_period       = (1.0/bit_rate)*1000000000;        // bit-rate clock period
-    
+
     reg         clk             = 0;
     reg         reset           = 1;
     reg         brg_tick_reg    = 0;
@@ -85,15 +85,15 @@ module tb ();
         rx_read_tick <= 1;
         @(posedge clk);
         rx_read_tick <= 0;
-        
+
         // wait till the UART is IDLE
         wait ( uut.state_reg[uut.IDLE] == 1 );
 
-        // mess with the start-bit arrival phase angle 
+        // mess with the start-bit arrival phase angle
         // a short time here will start sending before an entire stop-bit period has lapsed
         @(posedge brg_tick_reg);
         //#(clk_period*500);
-        
+
 
 
         rx <= 0;            // start
@@ -149,23 +149,23 @@ module tb ();
         for (i=0; i<5; i=i+1) @(posedge brg_tick_reg);
 
         rx <= 0;            // start
-        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too small
+        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too short
         rx <= 1;            // d0
         for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
         rx <= 0;            // d1
-        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too small
+        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too short
         rx <= 1;            // d2
         for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
         rx <= 0;            // d3
-        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too small
+        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too short
         rx <= 0;            // d4
         for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
         rx <= 0;            // d5
-        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too small
+        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too short
         rx <= 1;            // d6
         for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
         rx <= 0;            // d7
-        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too small
+        for (i=0; i<15; i=i+1) @(posedge brg_tick_reg);     // too short
         rx <= 1;            // stop
 
         wait( rx_ready );   // wait till the UART is done
@@ -177,13 +177,74 @@ module tb ();
         rx_read_tick <= 0;
 
 
+
+        // wait a while
+        #(bit_period*2);
+        // get out of phase with the brg
+        @(posedge brg_tick_reg);
+        @(posedge brg_tick_reg);
+
+        // send a glitch (false start bit)
+        rx <= 0;            // start
+        for (i=0; i<4; i=i+1) @(posedge brg_tick_reg);      // too short
+        rx <= 1;
+        for (i=0; i<2; i=i+1) @(posedge brg_tick_reg);      // not even a full bit period
+
+
+        // send a normal character to make sure the RX FSM restarts properly
+        rx <= 0;            // start
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 1;            // d0
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // d1
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 1;            // d2
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // d3
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 1;            // d4
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // d5
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // d6
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 1;            // d7
+        for (i=0; i<16; i=i+1) @(posedge brg_tick_reg);
+        rx <= 1;            // stop
+
+        wait( rx_ready );   // wait till the UART is done
+
+        // read the UART holding reg
+        @(posedge clk);
+        rx_read_tick <= 1;
+        @(posedge clk);
+        rx_read_tick <= 0;
+
+
+        // wait a while
+        #(bit_period*1);
+
+        // send a spew of glitches
+        rx <= 0;            // start
+        for (i=0; i<4; i=i+1) @(posedge brg_tick_reg);      // too short
+        rx <= 1;
+        for (i=0; i<1; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // start
+        for (i=0; i<1; i=i+1) @(posedge brg_tick_reg);      // too short
+        rx <= 1;
+        for (i=0; i<2; i=i+1) @(posedge brg_tick_reg);
+        rx <= 0;            // start
+        for (i=0; i<7; i=i+1) @(posedge brg_tick_reg);      // too short
+        rx <= 1;
+        for (i=0; i<1; i=i+1) @(posedge brg_tick_reg);
+
         // waste some time
         #(bit_period*5);
         $finish;
     end
 
     initial begin
-        #(bit_period*10*10);  // stop after a while if we get stuck
+        #(bit_period*20*10);  // stop after a while if we get stuck
         $finish;
     end
 
