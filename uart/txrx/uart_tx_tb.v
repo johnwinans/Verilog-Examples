@@ -23,9 +23,12 @@
 
 module tb ();
 
-    localparam clk_hz       = 12000000;
-    localparam clk_period   = (1.0/clk_hz)*1000000000;    // period in nsec
-    localparam brg_divisor  = clk_hz/9600/16;
+    localparam bit_rate         = 9600;
+    localparam clk_hz           = 12000000;
+
+    localparam clk_period       = (1.0/clk_hz)*1000000000;    // period in timescale units
+    localparam brg_divisor      = clk_hz/bit_rate/16;
+    localparam bit_period       = (1.0/bit_rate)*1000000000;
     
     reg         clk             = 0;
     reg         reset           = 1;
@@ -139,14 +142,14 @@ module tb ();
         @(posedge tx_done_tick);
 
 
-        for ( i = 0; i<16*9; i = i + 1) @(posedge brg16_tick_reg);
+        #(bit_period*6);
 
         $finish;
     end
 
     initial begin
         // This is useful while debugging an endless simulation.
-        #200000000;         // Force stop at 200msec no matter what.
+        #(bit_period*10*10);
         $finish;
     end
 
