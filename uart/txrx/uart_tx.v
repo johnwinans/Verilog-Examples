@@ -65,7 +65,6 @@ module uart_tx(
 
     // bit rate clock generator
     always @( * ) begin
-        // This logic will make brg_mod16_reg and brg_tick an implied latch
         brg_tick_next = 0;
         brg_mod16_next = brg_mod16_reg;
         if ( brg16_tick ) begin
